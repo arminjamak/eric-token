@@ -1,0 +1,14 @@
+{
+ "POS": "lift",
+ "NEG": "cut",
+ "REINF": "grows",
+ "BAL": "seeks",
+ "CMP": "vs",
+ "FLOW": "to",
+ "BACK": "back to",
+ "DELAY": "lag",
+ "STOCK": "stock",
+ "IN": "in",
+ "OUT": "out",
+ "SPLIT": "split"
+}
