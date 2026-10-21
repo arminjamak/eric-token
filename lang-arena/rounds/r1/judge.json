@@ -42,6 +42,7 @@
         "validity": 1
       }
     },
+    "comments": "Near-English comparative pairs make cold and spec decoding almost perfect; only minor gaps (cold b5 does not stress waiting, spec b9 leaves loop stop implicit). Encodings are faithful and rule-conformant, though fallback to plain English (keeps getting worse, pulled back toward) makes it less compact and the comma/colon roles are slightly overloaded.",
     "raw": {
       "cold": {
         "b1": {
@@ -240,7 +241,49 @@
           ],
           "wrong": 0
         }
-      }
+      },
+      "encode": {
+        "h1": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        },
+        "h2": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        },
+        "h3": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        },
+        "h4": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        }
+      },
+      "comments": "Near-English comparative pairs make cold and spec decoding almost perfect; only minor gaps (cold b5 does not stress waiting, spec b9 leaves loop stop implicit). Encodings are faithful and rule-conformant, though fallback to plain English (keeps getting worse, pulled back toward) makes it less compact and the comma/colon roles are slightly overloaded."
     }
   },
   "B": {
@@ -286,6 +329,7 @@
         "validity": 0.5
       }
     },
+    "comments": "Compact lift/cut sign words decode well with the spec; cold readers recover nearly everything but stumble on cut-chains (b8 rations/deaths flagged as confusing) and miss the system/subsystem framing in b10. Encodings are terse and mostly valid; h4 improvises 'lag delay' without N and h1 loses the explicit worsening.",
     "raw": {
       "cold": {
         "b1": {
@@ -484,7 +528,49 @@
           ],
           "wrong": 0
         }
-      }
+      },
+      "encode": {
+        "h1": {
+          "facts": [
+            1,
+            1,
+            1,
+            0.5
+          ],
+          "validity": 1
+        },
+        "h2": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        },
+        "h3": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        },
+        "h4": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 0.5
+        }
+      },
+      "comments": "Compact lift/cut sign words decode well with the spec; cold readers recover nearly everything but stumble on cut-chains (b8 rations/deaths flagged as confusing) and miss the system/subsystem framing in b10. Encodings are terse and mostly valid; h4 improvises 'lag delay' without N and h1 loses the explicit worsening."
     }
   }
 }

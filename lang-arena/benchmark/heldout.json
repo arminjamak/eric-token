@@ -1,0 +1,13 @@
+{
+  "note": "Held-out encode set. Never shown to designers. Spec-learners must write these in the language.",
+  "items": [
+    {"id": "h1", "english": "Stress reduces sleep, and less sleep increases stress. This vicious cycle keeps getting worse.",
+     "facts": ["more stress -> less sleep", "less sleep -> more stress", "reinforcing loop", "it keeps worsening"]},
+    {"id": "h2", "english": "A bank account balance is a stock. Deposits flow in; withdrawals and fees flow out. Each month, interest is added in proportion to the balance.",
+     "facts": ["balance is a stock", "deposits are an inflow", "withdrawals are an outflow", "fees are an outflow", "monthly interest inflow proportional to balance (reinforcing)"]},
+    {"id": "h3", "english": "A message enters a queue. If the queue is full, the message is dropped. Otherwise, a worker picks it up, processes it, and writes the result to storage.",
+     "facts": ["message enters a queue", "queue full -> message dropped", "otherwise a worker takes it", "worker processes it", "result is written to storage"]},
+    {"id": "h4", "english": "Prices rise when demand exceeds supply. Higher prices reduce demand and, after a delay, increase supply, pulling prices back toward equilibrium.",
+     "facts": ["demand > supply -> prices rise", "higher prices reduce demand", "higher prices increase supply", "the supply response is delayed", "prices are pulled back toward equilibrium (balancing)"]}
+  ]
+}

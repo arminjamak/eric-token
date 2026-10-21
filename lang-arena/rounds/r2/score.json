@@ -1,0 +1,31 @@
+{
+  "A": {
+    "name": "Terse Plain",
+    "cold_read": 0.9917,
+    "spec_decode": 1.0,
+    "encode": 0.9688,
+    "compression": 0.7954,
+    "length_ratio": 0.4432,
+    "core_size": 15,
+    "economy": 1.0,
+    "errors": [],
+    "concision_score": 39.77,
+    "learnability_score": 49.56,
+    "total": 89.33
+  },
+  "B": {
+    "name": "Terser",
+    "cold_read": 0.98,
+    "spec_decode": 1.0,
+    "encode": 0.8313,
+    "compression": 0.9021,
+    "length_ratio": 0.3685,
+    "core_size": 15,
+    "economy": 1.0,
+    "errors": [],
+    "concision_score": 45.11,
+    "learnability_score": 48.01,
+    "total": 93.12
+  },
+  "winner": "B"
+}
