@@ -1,0 +1,84 @@
+{
+  "name": "Terser 2",
+  "tagline": "Systems said in the fewest literal words; every keyword says what it means.",
+  "lexicon": [
+    {
+      "word": "raises",
+      "meaning": "A raises B: more A brings more B; less A brings less B"
+    },
+    {
+      "word": "lowers",
+      "meaning": "A lowers B: more A brings less B; less A brings more B"
+    },
+    {
+      "word": "runaway",
+      "meaning": "ends a loop: reinforcing, each change feeds itself and escalates, upward or downward"
+    },
+    {
+      "word": "balancing",
+      "meaning": "ends a loop: pulls toward a goal or limit and settles; balancing at X names it"
+    },
+    {
+      "word": "vs",
+      "meaning": "X vs Y: X is compared with Y"
+    },
+    {
+      "word": "to",
+      "meaning": "moves or flows to; A to B to C is a path"
+    },
+    {
+      "word": "back to",
+      "meaning": "flows back to an earlier step (rework or repeat)"
+    },
+    {
+      "word": "lag",
+      "meaning": "delay: what came just before arrives or acts late; lag 2 weeks gives its length"
+    },
+    {
+      "word": "stock",
+      "meaning": "X stock: X accumulates; rises while inflow exceeds outflow, falls while outflow exceeds inflow"
+    },
+    {
+      "word": "inflow, outflow",
+      "meaning": "A inflow: A adds to the stock; A outflow: A drains it"
+    },
+    {
+      "word": "parallel",
+      "meaning": "parallel A, B: A and B run at once; both done (or all done): join, wait for all"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "X: Y means when X holds, Y happens; else Z is the other case, to the clause end. Thresholds and counts work as X; each day: Y repeats.",
+      "example": "valid: process, else reject, tell sender; 3 fails: stop",
+      "reads_as": "if valid, process it, otherwise reject it and tell the sender; after three failures, stop"
+    },
+    {
+      "rule": "Semicolons separate clauses. Commas list items; listed actions run in order, each starting only after the previous finishes. After parallel they run in parallel.",
+      "example": "collect data, clean, publish",
+      "reads_as": "collect the data, then clean it, then publish it, each step waiting for the last"
+    },
+    {
+      "rule": "A cause chain ending on its first word is a closed loop, marked runaway or balancing. Links may mix raises and lowers.",
+      "example": "price raises supply lowers price, balancing",
+      "reads_as": "higher price brings more supply, which lowers price: a balancing loop"
+    },
+    {
+      "rule": "X (A, B) or X (A to B): system X contains subsystems A and B. A path into X enters its first part and leaves from its last.",
+      "example": "ore to mill (crush to sort) to port",
+      "reads_as": "ore goes into the mill, a system with subsystems crush then sort, and leaves sort for the port"
+    }
+  ],
+  "translations": {
+    "b1": "customers raises referrals raises customers, runaway forever",
+    "b2": "room vs target; below: heater on, warms; reached: off; balancing",
+    "b3": "tank level stock, inlet inflow, drain outflow",
+    "b4": "inventory below target: order; lag 2 weeks, so over-order; swings",
+    "b5": "collect data, clean, analyze, publish results",
+    "b6": "check requests; valid: process, else reject, tell sender",
+    "b7": "order parallel packing, billing; both done: ship",
+    "b8": "births raises population raises births, runaway; population lowers rations lowers deaths lowers population, balancing at capacity",
+    "b9": "try job; fail: wait, retry; 3 fails: human review",
+    "b10": "parts from suppliers to factory (intake to assembly to inspection) to customers; defects back to assembly"
+  }
+}
