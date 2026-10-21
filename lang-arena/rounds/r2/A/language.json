@@ -1,0 +1,83 @@
+{
+  "name": "Terse Plain",
+  "tagline": "Systems said in the fewest literal words.",
+  "lexicon": [
+    {
+      "word": "lift",
+      "meaning": "A lift B: more A gives more B, less A gives less B"
+    },
+    {
+      "word": "cut",
+      "meaning": "A cut B: more A gives less B, less A gives more B"
+    },
+    {
+      "word": "grows",
+      "meaning": "tags the loop just named as reinforcing: it amplifies itself, upward or downward"
+    },
+    {
+      "word": "seeks",
+      "meaning": "tags the loop just named as balancing: settles at a goal; seeks X names the goal"
+    },
+    {
+      "word": "vs",
+      "meaning": "is compared with"
+    },
+    {
+      "word": "to",
+      "meaning": "moves or flows to; A to B to C is a path"
+    },
+    {
+      "word": "back to",
+      "meaning": "flows back to an earlier step: a rework loop"
+    },
+    {
+      "word": "lag",
+      "meaning": "arrives only after a delay; lag 2 weeks gives its length"
+    },
+    {
+      "word": "stock",
+      "meaning": "X stock: X is an amount that accumulates over time"
+    },
+    {
+      "word": "in, out",
+      "meaning": "in: inflow into the stock; out: outflow from it"
+    },
+    {
+      "word": "has",
+      "meaning": "X has A, B: X is a system containing subsystems A and B"
+    },
+    {
+      "word": "split",
+      "meaning": "split A, B: A and B run in parallel; all done: they join"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "X: Y means when X holds, Y happens. A following else clause gives the other case. X can be a threshold, count or time: over 90, 3 fails, each day.",
+      "example": "valid: process; else reject; 3 fails: stop",
+      "reads_as": "if valid, process it, otherwise reject it; after three failures, stop"
+    },
+    {
+      "rule": "Semicolons separate clauses. Commas list items; listed actions happen in order, each starting only after the last finishes. After split or has, commas list parts.",
+      "example": "collect, clean, publish",
+      "reads_as": "collect; once done, clean; once done, publish"
+    },
+    {
+      "rule": "A lift or cut chain that ends on its first word is a closed loop; add grows or seeks to say which kind.",
+      "example": "cats lift kits lift cats, grows",
+      "reads_as": "more cats, more kittens, more cats: a reinforcing loop"
+    }
+  ],
+  "translations": {
+    "b1": "customers lift referrals lift customers, grows forever.",
+    "b2": "room vs target; below: heater on, warms; reached: off; seeks.",
+    "b3": "tank level stock, inlet in, drain out; in over out: rises; else falls.",
+    "b4": "inventory below target: order; deliveries lag 2 weeks, so over-order; inventory swings around target.",
+    "b5": "collect data, clean, analyze, publish results.",
+    "b6": "check each request; valid: process; else reject, tell sender.",
+    "b7": "order split packing, billing; both done: ship.",
+    "b8": "births lift population lift births, grows; population cut rations cut deaths cut population, seeks capacity.",
+    "b9": "try job; fail: wait, retry; 3 fails: human review.",
+    "b10": "factory has intake, assembly, inspection; parts from suppliers to intake to assembly to inspection, finished to customers, defects back to assembly."
+  }
+}
