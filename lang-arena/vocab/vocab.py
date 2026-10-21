@@ -116,7 +116,7 @@ def score(it):
           "| meaning | champion | D | chars | fitness | runners-up |", "|---|---|---|---|---|---|"]
     for m in IDS:
         c = champs.get(m, {"word": "-", "D": 0, "chars": 0, "fitness": 0})
-        ru = ", ".join(f"{r['word']} ({r['fitness']})" for r in board[m] if r["word"] != c["word"])[:160]
+        ru = ", ".join(f"{r['word']} ({r['fitness']})" for r in board[m] if r["word"] != c["word"])
         md.append(f"| {m} | **{c['word']}** | {c['D']} | {c['chars']} | {c['fitness']} | {ru} |")
     (it / "leaderboard.md").write_text("\n".join(md) + "\n")
     print("\n".join(md))

@@ -1,0 +1,139 @@
+{
+ "POS": [
+  "raises",
+  "causes",
+  "heightens",
+  "enhances",
+  "elevates",
+  "intensifies",
+  "powers",
+  "fuels",
+  "sparks",
+  "induces",
+  "promotes"
+ ],
+ "NEG": [
+  "lowers",
+  "lessens",
+  "weakens",
+  "hinders",
+  "suppresses",
+  "minimizes",
+  "slows",
+  "limits",
+  "trims",
+  "erodes"
+ ],
+ "REINF": [
+  "runaway",
+  "compounding",
+  "snowballing",
+  "vicious",
+  "unstable",
+  "explosive",
+  "compounds",
+  "accelerates",
+  "explodes",
+  "ratchets",
+  "surges"
+ ],
+ "BAL": [
+  "balancing",
+  "regulating",
+  "corrective",
+  "equilibrium",
+  "restoring",
+  "stabilizes",
+  "corrects",
+  "regulates",
+  "steers",
+  "tracks",
+  "holds"
+ ],
+ "CMP": [
+  "vs",
+  "compared",
+  "compare",
+  "contrast",
+  "relative",
+  "differs",
+  "beats",
+  "rivals",
+  "than",
+  "trumps",
+  "outdoes"
+ ],
+ "FLOW": [
+  "passes",
+  "flows",
+  "onward",
+  "forward",
+  "moves",
+  "transfers",
+  "hands",
+  "routes",
+  "ships"
+ ],
+ "BACK": [
+  "sends back",
+  "rewinds",
+  "rollback",
+  "repeats",
+  "retracts",
+  "recycles",
+  "revisits",
+  "redo",
+  "retry"
+ ],
+ "DELAY": [
+  "lag",
+  "postpones",
+  "trails",
+  "stalls",
+  "pauses",
+  "lingers",
+  "idles"
+ ],
+ "STOCK": [
+  "stock",
+  "reservoir",
+  "accumulation",
+  "buildup",
+  "backlog",
+  "hoard",
+  "bank",
+  "buffer"
+ ],
+ "IN": [
+  "inflow",
+  "incoming",
+  "inbound",
+  "inlet",
+  "supply",
+  "receipts",
+  "influx",
+  "imports"
+ ],
+ "OUT": [
+  "drains",
+  "outgoing",
+  "outbound",
+  "outlet",
+  "withdrawal",
+  "discharge",
+  "release",
+  "drawdown",
+  "spending"
+ ],
+ "SPLIT": [
+  "forks",
+  "parallel",
+  "alongside",
+  "concurrent",
+  "simultaneous",
+  "together",
+  "parts",
+  "sprouts",
+  "parallels"
+ ]
+}
