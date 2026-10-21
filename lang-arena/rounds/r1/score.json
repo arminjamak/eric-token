@@ -1,0 +1,31 @@
+{
+  "A": {
+    "name": "Plain Loop",
+    "cold_read": 0.99,
+    "spec_decode": 0.99,
+    "encode": 1.0,
+    "compression": 0.5689,
+    "length_ratio": 0.6018,
+    "core_size": 15,
+    "economy": 1.0,
+    "errors": [],
+    "concision_score": 28.16,
+    "learnability_score": 49.7,
+    "total": 77.86
+  },
+  "B": {
+    "name": "Terse",
+    "cold_read": 0.9817,
+    "spec_decode": 1.0,
+    "encode": 0.8438,
+    "compression": 0.7824,
+    "length_ratio": 0.4523,
+    "core_size": 15,
+    "economy": 1.0,
+    "errors": [],
+    "concision_score": 39.12,
+    "learnability_score": 48.16,
+    "total": 87.28
+  },
+  "winner": "B"
+}
