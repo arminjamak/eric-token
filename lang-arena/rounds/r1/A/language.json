@@ -1,0 +1,86 @@
+{
+  "name": "Plain Loop",
+  "tagline": "Say only what moves, what causes what, and when.",
+  "lexicon": [
+    {
+      "word": "to",
+      "meaning": "moves, flows or is sent to. Chains: A to B to C."
+    },
+    {
+      "word": "back to",
+      "meaning": "returns to an earlier step (rework or repeat)."
+    },
+    {
+      "word": "then",
+      "meaning": "next step starts only after the previous step finishes."
+    },
+    {
+      "word": "split",
+      "meaning": "the paths listed after it run in parallel, at the same time."
+    },
+    {
+      "word": "both done",
+      "meaning": "join: wait until every parallel path finishes (use all done for 3 or more)."
+    },
+    {
+      "word": "after",
+      "meaning": "delay or count before the next thing: after 2 weeks, after 3 failures."
+    },
+    {
+      "word": "stock",
+      "meaning": "an amount that builds up over time; inflow raises it, outflow lowers it."
+    },
+    {
+      "word": "reinforcing loop",
+      "meaning": "a loop that amplifies its own change: growth feeds more growth."
+    },
+    {
+      "word": "balancing loop",
+      "meaning": "a loop that pulls back toward a target or limit."
+    }
+  ],
+  "rules": [
+    {
+      "rule": "Comparative pairs show cause: more A, more B means more A causes more B. Any comparative works: less, higher, slower.",
+      "example": "more rain, higher river",
+      "reads_as": "more rain causes a higher river"
+    },
+    {
+      "rule": "A cause chain followed by a colon and a loop type feeds back to its first item. Types: reinforcing loop, balancing loop. Standing alone as a statement, it names the loop just described.",
+      "example": "more sales, more ads: reinforcing loop",
+      "reads_as": "more sales bring more ads, which bring more sales; self-amplifying"
+    },
+    {
+      "rule": "Conditions: if C, X. Use else for the other case. Semicolons separate branches. Compare with over, below, at.",
+      "example": "if level over 80, alarm; else wait",
+      "reads_as": "if the level exceeds 80 the alarm sounds, otherwise keep waiting"
+    },
+    {
+      "rule": "A colon introduces parts or details of the word before it. A system has subsystems: list them.",
+      "example": "city has districts: north, south",
+      "reads_as": "the city is a system with two subsystems, north and south"
+    },
+    {
+      "rule": "Drop articles and filler words. Every other word keeps its plain English meaning.",
+      "example": "check each order",
+      "reads_as": "each order is checked"
+    },
+    {
+      "rule": "Commas list steps or effects in the order they happen. A period ends one statement.",
+      "example": "if cold, heater on, raises heat",
+      "reads_as": "when cold, the heater turns on and raises the heat"
+    }
+  ],
+  "translations": {
+    "b1": "more customers, more referrals: reinforcing loop, no limit.",
+    "b2": "compare room temperature to target. if colder, heater on, raises it; if at target, heater off. balancing loop.",
+    "b3": "tank water level is stock: inflow by inlet, outflow by drain. if inflow over outflow, rises; if under, falls.",
+    "b4": "if inventory below target, shop orders. delivery after 2 week delay, so over-ordering; inventory oscillates around target.",
+    "b5": "collect data, then clean, then analyze, then publish results.",
+    "b6": "check each incoming request: if valid, to processing; else reject, notify sender.",
+    "b7": "order splits in parallel: packing, billing. both done, then shipping.",
+    "b8": "more population, more births: reinforcing loop. more population, less food each, higher death rate, slower growth: balancing loop. population levels off at carrying capacity.",
+    "b9": "attempt job. if fails, wait, retry. after 3 failures, to human review.",
+    "b10": "factory has subsystems: intake, assembly, quality check. parts from suppliers to intake to assembly to quality check; finished to customers; defective back to assembly."
+  }
+}
