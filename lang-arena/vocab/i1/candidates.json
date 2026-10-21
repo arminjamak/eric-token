@@ -1,0 +1,131 @@
+{
+ "POS": [
+  "lift",
+  "increases",
+  "raises",
+  "boosts",
+  "drives",
+  "pushes",
+  "spurs"
+ ],
+ "NEG": [
+  "cut",
+  "decreases",
+  "reduces",
+  "lowers",
+  "curbs",
+  "diminishes",
+  "dampens",
+  "shrinks"
+ ],
+ "REINF": [
+  "grows",
+  "reinforcing",
+  "amplifying",
+  "escalating",
+  "runaway",
+  "cascading",
+  "snowball",
+  "spirals",
+  "escalates",
+  "amplify"
+ ],
+ "BAL": [
+  "seeks",
+  "balancing",
+  "stabilizing",
+  "settling",
+  "damping",
+  "converging",
+  "settles",
+  "stable",
+  "targets",
+  "steady",
+  "anchors"
+ ],
+ "CMP": [
+  "vs",
+  "versus",
+  "against",
+  "beside",
+  "minus",
+  "matches",
+  "over"
+ ],
+ "FLOW": [
+  "to",
+  "feeds",
+  "leads",
+  "passes",
+  "then",
+  "carries",
+  "via",
+  "into",
+  "onto"
+ ],
+ "BACK": [
+  "back to",
+  "returns to",
+  "loops to",
+  "reverts to",
+  "resets to",
+  "sends back",
+  "back",
+  "returns",
+  "loops",
+  "reverts",
+  "resets"
+ ],
+ "DELAY": [
+  "lag",
+  "delayed",
+  "after",
+  "lags",
+  "waits",
+  "defers",
+  "delays",
+  "later"
+ ],
+ "STOCK": [
+  "stock",
+  "level",
+  "total",
+  "store",
+  "pool",
+  "reserve",
+  "tank",
+  "bin"
+ ],
+ "IN": [
+  "in",
+  "inflow",
+  "adds",
+  "fills",
+  "intake",
+  "input",
+  "gains",
+  "feeds",
+  "builds"
+ ],
+ "OUT": [
+  "out",
+  "outflow",
+  "drains",
+  "empties",
+  "outtake",
+  "output",
+  "leaks",
+  "bleeds",
+  "exits"
+ ],
+ "SPLIT": [
+  "split",
+  "forks",
+  "branches",
+  "divides",
+  "fans out",
+  "spawns",
+  "fans",
+  "diverges"
+ ]
+}
