@@ -1,0 +1,735 @@
+{
+  "board": {
+    "POS": [
+      {
+        "word": "raises",
+        "D": 0.833,
+        "chars": 6,
+        "fitness": 0.743
+      },
+      {
+        "word": "increases",
+        "D": 0.75,
+        "chars": 9,
+        "fitness": 0.57
+      },
+      {
+        "word": "boosts",
+        "D": 0.583,
+        "chars": 6,
+        "fitness": 0.493
+      },
+      {
+        "word": "drives",
+        "D": 0.583,
+        "chars": 6,
+        "fitness": 0.493
+      },
+      {
+        "word": "lift",
+        "D": 0.417,
+        "chars": 4,
+        "fitness": 0.387
+      },
+      {
+        "word": "spurs",
+        "D": 0.417,
+        "chars": 5,
+        "fitness": 0.357
+      },
+      {
+        "word": "pushes",
+        "D": 0.083,
+        "chars": 6,
+        "fitness": -0.007
+      }
+    ],
+    "NEG": [
+      {
+        "word": "lowers",
+        "D": 0.833,
+        "chars": 6,
+        "fitness": 0.743
+      },
+      {
+        "word": "decreases",
+        "D": 0.917,
+        "chars": 9,
+        "fitness": 0.737
+      },
+      {
+        "word": "reduces",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "diminishes",
+        "D": 0.667,
+        "chars": 10,
+        "fitness": 0.457
+      },
+      {
+        "word": "curbs",
+        "D": 0.417,
+        "chars": 5,
+        "fitness": 0.357
+      },
+      {
+        "word": "cut",
+        "D": 0.25,
+        "chars": 3,
+        "fitness": 0.25
+      },
+      {
+        "word": "shrinks",
+        "D": 0.333,
+        "chars": 7,
+        "fitness": 0.213
+      },
+      {
+        "word": "dampens",
+        "D": 0.083,
+        "chars": 7,
+        "fitness": -0.037
+      }
+    ],
+    "REINF": [
+      {
+        "word": "runaway",
+        "D": 0.917,
+        "chars": 7,
+        "fitness": 0.797
+      },
+      {
+        "word": "snowball",
+        "D": 0.917,
+        "chars": 8,
+        "fitness": 0.767
+      },
+      {
+        "word": "reinforcing",
+        "D": 1.0,
+        "chars": 11,
+        "fitness": 0.76
+      },
+      {
+        "word": "escalates",
+        "D": 0.917,
+        "chars": 9,
+        "fitness": 0.737
+      },
+      {
+        "word": "spirals",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "amplify",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "amplifying",
+        "D": 0.917,
+        "chars": 10,
+        "fitness": 0.707
+      },
+      {
+        "word": "escalating",
+        "D": 0.917,
+        "chars": 10,
+        "fitness": 0.707
+      },
+      {
+        "word": "cascading",
+        "D": 0.25,
+        "chars": 9,
+        "fitness": 0.07
+      },
+      {
+        "word": "grows",
+        "D": 0.0,
+        "chars": 5,
+        "fitness": -0.06
+      }
+    ],
+    "BAL": [
+      {
+        "word": "balancing",
+        "D": 1.0,
+        "chars": 9,
+        "fitness": 0.82
+      },
+      {
+        "word": "settling",
+        "D": 0.917,
+        "chars": 8,
+        "fitness": 0.767
+      },
+      {
+        "word": "stabilizing",
+        "D": 1.0,
+        "chars": 11,
+        "fitness": 0.76
+      },
+      {
+        "word": "damping",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "settles",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "seeks",
+        "D": 0.75,
+        "chars": 5,
+        "fitness": 0.69
+      },
+      {
+        "word": "stable",
+        "D": 0.75,
+        "chars": 6,
+        "fitness": 0.66
+      },
+      {
+        "word": "targets",
+        "D": 0.75,
+        "chars": 7,
+        "fitness": 0.63
+      },
+      {
+        "word": "steady",
+        "D": 0.667,
+        "chars": 6,
+        "fitness": 0.577
+      },
+      {
+        "word": "anchors",
+        "D": 0.5,
+        "chars": 7,
+        "fitness": 0.38
+      },
+      {
+        "word": "converging",
+        "D": 0.5,
+        "chars": 10,
+        "fitness": 0.29
+      }
+    ],
+    "CMP": [
+      {
+        "word": "vs",
+        "D": 0.667,
+        "chars": 2,
+        "fitness": 0.667
+      },
+      {
+        "word": "versus",
+        "D": 0.667,
+        "chars": 6,
+        "fitness": 0.577
+      },
+      {
+        "word": "against",
+        "D": 0.5,
+        "chars": 7,
+        "fitness": 0.38
+      },
+      {
+        "word": "matches",
+        "D": 0.5,
+        "chars": 7,
+        "fitness": 0.38
+      },
+      {
+        "word": "minus",
+        "D": 0.167,
+        "chars": 5,
+        "fitness": 0.107
+      },
+      {
+        "word": "over",
+        "D": 0.083,
+        "chars": 4,
+        "fitness": 0.053
+      },
+      {
+        "word": "beside",
+        "D": 0.0,
+        "chars": 6,
+        "fitness": -0.09
+      }
+    ],
+    "FLOW": [
+      {
+        "word": "passes",
+        "D": 0.917,
+        "chars": 6,
+        "fitness": 0.827
+      },
+      {
+        "word": "carries",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "via",
+        "D": 0.583,
+        "chars": 3,
+        "fitness": 0.583
+      },
+      {
+        "word": "onto",
+        "D": 0.5,
+        "chars": 4,
+        "fitness": 0.47
+      },
+      {
+        "word": "to",
+        "D": 0.417,
+        "chars": 2,
+        "fitness": 0.417
+      },
+      {
+        "word": "then",
+        "D": 0.417,
+        "chars": 4,
+        "fitness": 0.387
+      },
+      {
+        "word": "into",
+        "D": 0.417,
+        "chars": 4,
+        "fitness": 0.387
+      },
+      {
+        "word": "leads",
+        "D": 0.083,
+        "chars": 5,
+        "fitness": 0.023
+      },
+      {
+        "word": "feeds",
+        "D": 0.0,
+        "chars": 5,
+        "fitness": -0.06
+      }
+    ],
+    "BACK": [
+      {
+        "word": "sends back",
+        "D": 1.0,
+        "chars": 10,
+        "fitness": 0.79
+      },
+      {
+        "word": "back",
+        "D": 0.75,
+        "chars": 4,
+        "fitness": 0.72
+      },
+      {
+        "word": "back to",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "reverts to",
+        "D": 0.833,
+        "chars": 10,
+        "fitness": 0.623
+      },
+      {
+        "word": "loops to",
+        "D": 0.75,
+        "chars": 8,
+        "fitness": 0.6
+      },
+      {
+        "word": "returns",
+        "D": 0.667,
+        "chars": 7,
+        "fitness": 0.547
+      },
+      {
+        "word": "reverts",
+        "D": 0.667,
+        "chars": 7,
+        "fitness": 0.547
+      },
+      {
+        "word": "returns to",
+        "D": 0.75,
+        "chars": 10,
+        "fitness": 0.54
+      },
+      {
+        "word": "resets",
+        "D": 0.417,
+        "chars": 6,
+        "fitness": 0.327
+      },
+      {
+        "word": "loops",
+        "D": 0.333,
+        "chars": 5,
+        "fitness": 0.273
+      },
+      {
+        "word": "resets to",
+        "D": 0.417,
+        "chars": 9,
+        "fitness": 0.237
+      }
+    ],
+    "DELAY": [
+      {
+        "word": "lag",
+        "D": 1.0,
+        "chars": 3,
+        "fitness": 1.0
+      },
+      {
+        "word": "lags",
+        "D": 1.0,
+        "chars": 4,
+        "fitness": 0.97
+      },
+      {
+        "word": "delays",
+        "D": 1.0,
+        "chars": 6,
+        "fitness": 0.91
+      },
+      {
+        "word": "delayed",
+        "D": 1.0,
+        "chars": 7,
+        "fitness": 0.88
+      },
+      {
+        "word": "waits",
+        "D": 0.917,
+        "chars": 5,
+        "fitness": 0.857
+      },
+      {
+        "word": "later",
+        "D": 0.917,
+        "chars": 5,
+        "fitness": 0.857
+      },
+      {
+        "word": "after",
+        "D": 0.75,
+        "chars": 5,
+        "fitness": 0.69
+      },
+      {
+        "word": "defers",
+        "D": 0.75,
+        "chars": 6,
+        "fitness": 0.66
+      }
+    ],
+    "STOCK": [
+      {
+        "word": "stock",
+        "D": 1.0,
+        "chars": 5,
+        "fitness": 0.94
+      },
+      {
+        "word": "tank",
+        "D": 0.917,
+        "chars": 4,
+        "fitness": 0.887
+      },
+      {
+        "word": "store",
+        "D": 0.917,
+        "chars": 5,
+        "fitness": 0.857
+      },
+      {
+        "word": "pool",
+        "D": 0.833,
+        "chars": 4,
+        "fitness": 0.803
+      },
+      {
+        "word": "level",
+        "D": 0.833,
+        "chars": 5,
+        "fitness": 0.773
+      },
+      {
+        "word": "reserve",
+        "D": 0.75,
+        "chars": 7,
+        "fitness": 0.63
+      },
+      {
+        "word": "total",
+        "D": 0.667,
+        "chars": 5,
+        "fitness": 0.607
+      },
+      {
+        "word": "bin",
+        "D": 0.417,
+        "chars": 3,
+        "fitness": 0.417
+      }
+    ],
+    "IN": [
+      {
+        "word": "inflow",
+        "D": 1.0,
+        "chars": 6,
+        "fitness": 0.91
+      },
+      {
+        "word": "fills",
+        "D": 0.917,
+        "chars": 5,
+        "fitness": 0.857
+      },
+      {
+        "word": "intake",
+        "D": 0.833,
+        "chars": 6,
+        "fitness": 0.743
+      },
+      {
+        "word": "adds",
+        "D": 0.75,
+        "chars": 4,
+        "fitness": 0.72
+      },
+      {
+        "word": "input",
+        "D": 0.667,
+        "chars": 5,
+        "fitness": 0.607
+      },
+      {
+        "word": "gains",
+        "D": 0.5,
+        "chars": 5,
+        "fitness": 0.44
+      },
+      {
+        "word": "in",
+        "D": 0.417,
+        "chars": 2,
+        "fitness": 0.417
+      },
+      {
+        "word": "feeds",
+        "D": 0.083,
+        "chars": 5,
+        "fitness": 0.023
+      },
+      {
+        "word": "builds",
+        "D": 0.0,
+        "chars": 6,
+        "fitness": -0.09
+      }
+    ],
+    "OUT": [
+      {
+        "word": "drains",
+        "D": 1.0,
+        "chars": 6,
+        "fitness": 0.91
+      },
+      {
+        "word": "outflow",
+        "D": 1.0,
+        "chars": 7,
+        "fitness": 0.88
+      },
+      {
+        "word": "empties",
+        "D": 1.0,
+        "chars": 7,
+        "fitness": 0.88
+      },
+      {
+        "word": "bleeds",
+        "D": 0.917,
+        "chars": 6,
+        "fitness": 0.827
+      },
+      {
+        "word": "leaks",
+        "D": 0.833,
+        "chars": 5,
+        "fitness": 0.773
+      },
+      {
+        "word": "outtake",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "out",
+        "D": 0.583,
+        "chars": 3,
+        "fitness": 0.583
+      },
+      {
+        "word": "exits",
+        "D": 0.5,
+        "chars": 5,
+        "fitness": 0.44
+      },
+      {
+        "word": "output",
+        "D": 0.417,
+        "chars": 6,
+        "fitness": 0.327
+      }
+    ],
+    "SPLIT": [
+      {
+        "word": "forks",
+        "D": 1.0,
+        "chars": 5,
+        "fitness": 0.94
+      },
+      {
+        "word": "branches",
+        "D": 1.0,
+        "chars": 8,
+        "fitness": 0.85
+      },
+      {
+        "word": "fans out",
+        "D": 1.0,
+        "chars": 8,
+        "fitness": 0.85
+      },
+      {
+        "word": "split",
+        "D": 0.833,
+        "chars": 5,
+        "fitness": 0.773
+      },
+      {
+        "word": "fans",
+        "D": 0.75,
+        "chars": 4,
+        "fitness": 0.72
+      },
+      {
+        "word": "divides",
+        "D": 0.833,
+        "chars": 7,
+        "fitness": 0.713
+      },
+      {
+        "word": "diverges",
+        "D": 0.417,
+        "chars": 8,
+        "fitness": 0.267
+      },
+      {
+        "word": "spawns",
+        "D": 0.333,
+        "chars": 6,
+        "fitness": 0.243
+      }
+    ]
+  },
+  "champions": {
+    "DELAY": {
+      "word": "lag",
+      "D": 1.0,
+      "chars": 3,
+      "fitness": 1.0
+    },
+    "STOCK": {
+      "word": "stock",
+      "D": 1.0,
+      "chars": 5,
+      "fitness": 0.94
+    },
+    "SPLIT": {
+      "word": "forks",
+      "D": 1.0,
+      "chars": 5,
+      "fitness": 0.94
+    },
+    "IN": {
+      "word": "inflow",
+      "D": 1.0,
+      "chars": 6,
+      "fitness": 0.91
+    },
+    "OUT": {
+      "word": "drains",
+      "D": 1.0,
+      "chars": 6,
+      "fitness": 0.91
+    },
+    "FLOW": {
+      "word": "passes",
+      "D": 0.917,
+      "chars": 6,
+      "fitness": 0.827
+    },
+    "BAL": {
+      "word": "balancing",
+      "D": 1.0,
+      "chars": 9,
+      "fitness": 0.82
+    },
+    "REINF": {
+      "word": "runaway",
+      "D": 0.917,
+      "chars": 7,
+      "fitness": 0.797
+    },
+    "BACK": {
+      "word": "sends back",
+      "D": 1.0,
+      "chars": 10,
+      "fitness": 0.79
+    },
+    "POS": {
+      "word": "raises",
+      "D": 0.833,
+      "chars": 6,
+      "fitness": 0.743
+    },
+    "NEG": {
+      "word": "lowers",
+      "D": 0.833,
+      "chars": 6,
+      "fitness": 0.743
+    },
+    "CMP": {
+      "word": "vs",
+      "D": 0.667,
+      "chars": 2,
+      "fitness": 0.667
+    }
+  },
+  "total": 10.087,
+  "baseline_total": 6.777,
+  "gain_pct": 48.84
+}

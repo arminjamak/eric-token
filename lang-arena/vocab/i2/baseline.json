@@ -1,0 +1,14 @@
+{
+ "DELAY": "lag",
+ "STOCK": "stock",
+ "SPLIT": "forks",
+ "IN": "inflow",
+ "OUT": "drains",
+ "FLOW": "passes",
+ "BAL": "balancing",
+ "REINF": "runaway",
+ "BACK": "sends back",
+ "POS": "raises",
+ "NEG": "lowers",
+ "CMP": "vs"
+}
