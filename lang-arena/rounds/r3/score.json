@@ -1,0 +1,31 @@
+{
+  "A": {
+    "name": "Terser",
+    "cold_read": 0.9917,
+    "spec_decode": 1.0,
+    "encode": 0.85,
+    "compression": 0.9021,
+    "length_ratio": 0.3685,
+    "core_size": 15,
+    "economy": 1.0,
+    "errors": [],
+    "concision_score": 45.11,
+    "learnability_score": 48.38,
+    "total": 93.48
+  },
+  "B": {
+    "name": "Terser 2",
+    "cold_read": 1.0,
+    "spec_decode": 1.0,
+    "encode": 0.975,
+    "compression": 0.8816,
+    "length_ratio": 0.3829,
+    "core_size": 15,
+    "economy": 1.0,
+    "errors": [],
+    "concision_score": 44.08,
+    "learnability_score": 49.75,
+    "total": 93.83
+  },
+  "winner": "B"
+}

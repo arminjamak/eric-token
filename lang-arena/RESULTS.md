@@ -1,6 +1,8 @@
 # Lang Arena results
 
-**Final language: Terser.** See **[TERSER.md](TERSER.md)** for the one-page guide. It was built by designer B, the concision-first designer, and won both rounds. It is also the most concise *and* most learnable language at the same time: it ranks first on the weaker half, the product and the harmonic mean of the two scores. The arena stopped after round 2. B raised its total by only **+5.84** points, short of the required +6, which ended the arena.
+**Current language: Terser 2.** This is Terser with keywords optimised by the [vocabulary loop](vocab/RESULTS.md). It beat Terser 93.83 to 93.48 in a blind validation round (`rounds/r3`). See **[TERSER.md](TERSER.md)** for the one-page guide.
+
+**Arena winner: Terser.** It was built by designer B, the concision-first designer, and won both rounds. It is also the most concise *and* most learnable language at the same time: it ranks first on the weaker half, the product and the harmonic mean of the two scores. The arena stopped after round 2. B raised its total by only **+5.84** points, short of the required +6, which ended the arena.
 
 ## Scoreboard
 

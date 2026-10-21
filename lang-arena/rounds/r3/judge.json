@@ -1,0 +1,576 @@
+{
+  "A": {
+    "cold": {
+      "b1": 1.0,
+      "b2": 1.0,
+      "b3": 1.0,
+      "b4": 1.0,
+      "b5": 1.0,
+      "b6": 1.0,
+      "b7": 1.0,
+      "b8": 1.0,
+      "b9": 1.0,
+      "b10": 0.9167
+    },
+    "spec": {
+      "b1": 1.0,
+      "b2": 1.0,
+      "b3": 1.0,
+      "b4": 1.0,
+      "b5": 1.0,
+      "b6": 1.0,
+      "b7": 1.0,
+      "b8": 1.0,
+      "b9": 1.0,
+      "b10": 1.0
+    },
+    "encode": {
+      "h1": {
+        "coverage": 1.0,
+        "validity": 0.5
+      },
+      "h2": {
+        "coverage": 0.9,
+        "validity": 1
+      },
+      "h3": {
+        "coverage": 1.0,
+        "validity": 1
+      },
+      "h4": {
+        "coverage": 1.0,
+        "validity": 1
+      }
+    },
+    "comments": "Terse seeks/grows/lift/cut notation decodes almost perfectly, even cold. Cold reader hedged on b8 link signs and b10 nesting. Encodings are valid; h1 appends improvised English prose; h2 omits an explicit reinforcing marker.",
+    "raw": {
+      "cold": {
+        "b1": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b2": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b3": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b4": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b5": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b6": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b7": {
+          "facts": [
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b8": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b9": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b10": {
+          "facts": [
+            0.5,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        }
+      },
+      "spec": {
+        "b1": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b2": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b3": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b4": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b5": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b6": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b7": {
+          "facts": [
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b8": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b9": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b10": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        }
+      },
+      "encode": {
+        "h1": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 0.5
+        },
+        "h2": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            0.5
+          ],
+          "validity": 1
+        },
+        "h3": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        },
+        "h4": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        }
+      },
+      "comments": "Terse seeks/grows/lift/cut notation decodes almost perfectly, even cold. Cold reader hedged on b8 link signs and b10 nesting. Encodings are valid; h1 appends improvised English prose; h2 omits an explicit reinforcing marker."
+    }
+  },
+  "B": {
+    "cold": {
+      "b1": 1.0,
+      "b2": 1.0,
+      "b3": 1.0,
+      "b4": 1.0,
+      "b5": 1.0,
+      "b6": 1.0,
+      "b7": 1.0,
+      "b8": 1.0,
+      "b9": 1.0,
+      "b10": 1.0
+    },
+    "spec": {
+      "b1": 1.0,
+      "b2": 1.0,
+      "b3": 1.0,
+      "b4": 1.0,
+      "b5": 1.0,
+      "b6": 1.0,
+      "b7": 1.0,
+      "b8": 1.0,
+      "b9": 1.0,
+      "b10": 1.0
+    },
+    "encode": {
+      "h1": {
+        "coverage": 1.0,
+        "validity": 1
+      },
+      "h2": {
+        "coverage": 0.9,
+        "validity": 1
+      },
+      "h3": {
+        "coverage": 1.0,
+        "validity": 1
+      },
+      "h4": {
+        "coverage": 1.0,
+        "validity": 1
+      }
+    },
+    "comments": "Self-explanatory keywords (raises/lowers/runaway/balancing/parallel) give flawless cold and spec decodes with no contradictions. Encodings clean; h2 lacks an explicit reinforcing marker; h4 adds a redundant second balancing loop but stays correct.",
+    "raw": {
+      "cold": {
+        "b1": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b2": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b3": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b4": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b5": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b6": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b7": {
+          "facts": [
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b8": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b9": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b10": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        }
+      },
+      "spec": {
+        "b1": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b2": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b3": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b4": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b5": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b6": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b7": {
+          "facts": [
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b8": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b9": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        },
+        "b10": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "wrong": 0
+        }
+      },
+      "encode": {
+        "h1": {
+          "facts": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        },
+        "h2": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            0.5
+          ],
+          "validity": 1
+        },
+        "h3": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        },
+        "h4": {
+          "facts": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "validity": 1
+        }
+      },
+      "comments": "Self-explanatory keywords (raises/lowers/runaway/balancing/parallel) give flawless cold and spec decodes with no contradictions. Encodings clean; h2 lacks an explicit reinforcing marker; h4 adds a redundant second balancing loop but stays correct."
+    }
+  }
+}
