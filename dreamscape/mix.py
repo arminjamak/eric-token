@@ -69,7 +69,25 @@ def envelope(x, attack, release):
     return np.interp(np.arange(len(rect)), np.arange(len(ctl)) * hop, env)
 
 
-def limit(x, ceiling_db=-1.0, release=0.12):
+def ride(x, max_boost_db=9.0, max_cut_db=4.0, window=1.5):
+    """Phrase-level fader ride: pull each phrase toward the take's typical level."""
+    hop = SR // 100
+    frames = x[: len(x) // hop * hop, 0].reshape(-1, hop)
+    db = 10 * np.log10(np.mean(frames ** 2, axis=1) + 1e-12)
+    voiced = db > db.max() - 40
+    w = int(window * 100)
+    k = np.ones(w)
+    num = np.convolve(np.where(voiced, 10 ** (db / 10), 0), k, "same")
+    den = np.convolve(voiced.astype(float), k, "same")
+    local = np.where(den > 0, 10 * np.log10(num / np.maximum(den, 1) + 1e-12), np.nan)
+    target = np.nanpercentile(local[voiced], 75)
+    gain_db = np.clip(np.nan_to_num(target - local, nan=0.0), -max_cut_db, max_boost_db)
+    gain_db = np.convolve(gain_db, np.ones(50) / 50, "same")     # 0.5 s smoothing
+    g = np.interp(np.arange(len(x)), np.arange(len(gain_db)) * hop + hop / 2, 10 ** (gain_db / 20))
+    return x * g[:, None].astype(np.float32)
+
+
+def limit(x,ceiling_db=-1.0, release=0.12):
     """Transparent look-ahead peak limiter (4x oversampled peak detection)."""
     c = 10 ** (ceiling_db / 20)
     peak = np.abs(resample_poly(x, 4, 1, axis=0)).max(axis=1).reshape(-1, 4).max(axis=1)[:len(x)]
@@ -96,6 +114,9 @@ def main(backing_path, lead_path, bvox_path, out_dir):
     n = len(backing)
     lead = fit(load(lead_path, 1), n)
     bvox = fit(load(bvox_path, 2), n)
+
+    # ---- vocal rider: lift the softly sung opening phrases toward the rest
+    lead = ride(lead)
 
     # ---- lead vocal: clean, present, softly glued
     lead_dry = run(Pedalboard([
