@@ -1,0 +1,82 @@
+{
+  "name": "Terse",
+  "tagline": "Systems said in the fewest literal words.",
+  "lexicon": [
+    {
+      "word": "lift",
+      "meaning": "A lift B: more A causes more B, less A causes less B"
+    },
+    {
+      "word": "cut",
+      "meaning": "A cut B: more A causes less B, less A causes more B"
+    },
+    {
+      "word": "grows",
+      "meaning": "the loop just named reinforces itself, self-amplifying"
+    },
+    {
+      "word": "seeks",
+      "meaning": "balancing loop: pulls toward its goal and settles there"
+    },
+    {
+      "word": "vs",
+      "meaning": "is compared with"
+    },
+    {
+      "word": "then",
+      "meaning": "next step starts only after every previous step finishes"
+    },
+    {
+      "word": "to",
+      "meaning": "moves or flows to; A to B to C is a path"
+    },
+    {
+      "word": "back",
+      "meaning": "flows back to an earlier step, a rework loop"
+    },
+    {
+      "word": "lag",
+      "meaning": "lag N: arrives only after a delay of N"
+    },
+    {
+      "word": "stock",
+      "meaning": "X stock: X is an amount that accumulates over time"
+    },
+    {
+      "word": "in",
+      "meaning": "inflow into the stock; out is outflow from it"
+    },
+    {
+      "word": "has",
+      "meaning": "system has subsystems, listed with commas"
+    },
+    {
+      "word": "split",
+      "meaning": "split A, B: A and B run in parallel at once"
+    }
+  ],
+  "rules": [
+    {
+      "rule": "X: Y means when X holds, Y happens; else Z is the other case. Semicolons separate clauses; commas list items or steps. Bare verbs are actions.",
+      "example": "valid: process, else reject; 3 fails: stop",
+      "reads_as": "if valid, process it, otherwise reject it; after three failures, stop"
+    },
+    {
+      "rule": "A chain that ends on its first word is a closed loop.",
+      "example": "cats lift kits lift cats, grows",
+      "reads_as": "more cats, more kittens, more cats: a reinforcing loop"
+    }
+  ],
+  "translations": {
+    "b1": "customers lift referrals lift customers, grows forever.",
+    "b2": "room vs target; below: heater on, warms room; reached: off; seeks.",
+    "b3": "tank level stock, inlet in, drain out; in over out: rises, else falls.",
+    "b4": "inventory below target: order; deliveries lag 2 weeks, so over-order; inventory swings around target.",
+    "b5": "collect data then clean then analyze then publish results.",
+    "b6": "check each request; valid: process, else reject, tell sender.",
+    "b7": "order split packing, billing; both done: ship.",
+    "b8": "births lift population lift births, grows; population cut rations cut deaths cut population; seeks capacity.",
+    "b9": "try job; fail: wait, retry; 3 fails: human review.",
+    "b10": "factory has intake, assembly, inspection; parts from suppliers to intake to assembly to inspection, finished to customers, defects back to assembly."
+  }
+}
