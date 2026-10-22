@@ -60,4 +60,4 @@ There are 11 keywords and 4 rules. Every other word keeps its ordinary English m
 
 The last three examples were written by a Haiku learner after one read of the spec, on systems it had never seen.
 
-The arena history is in [RESULTS.md](RESULTS.md), and the vocabulary loop in [vocab/RESULTS.md](vocab/RESULTS.md).
+The full reference, covering grammar, every systems-thinking concept, archetypes and cross-field examples, is in [LANGUAGE.md](LANGUAGE.md). The arena history is in [RESULTS.md](RESULTS.md), and the vocabulary loop in [vocab/RESULTS.md](vocab/RESULTS.md).
