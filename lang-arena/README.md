@@ -44,8 +44,11 @@ Two designer agents compete to build a constructed language made only of plain w
 
 ```
 benchmark/benchmark.json   public benchmark (10 systems + atomic facts)
-benchmark/heldout.json     held-out encode set (published after the arena ends)
+benchmark/heldout.json     held-out encode set (published after the arena ended; use a fresh one for new rounds)
 tools/arena.py             check / render / score
+orchestration/             run.py (all steps between agent spawns) + prompt templates
+vocab/                     vocabulary loop (word descriptiveness vs length)
+HANDOFF.md                 how to pick up and continue the project
 rounds/rN/{A,B}/           language.json, notes.md, spec.md, tester packets and outputs
 rounds/rN/judge.json       judge grades
 rounds/rN/score.md         round scoreboard
