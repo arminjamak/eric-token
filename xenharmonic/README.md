@@ -361,8 +361,8 @@ four, and the novelty is carried by the tuning, the chords and the melodic caden
 | A | 0:38 | 8 | second stanza |
 | B | 1:03 | 8 | the release: the melody moves up to live around Mor and Kun; the hook "and every one of them is mine" rocks Vum–Nimo–Vum |
 | A | 1:28 | 8 | third stanza, sung plainly the first time |
-| interlude | 1:54 | 4 | the lead plays lines 3 and 4 of A over the band |
-| B | 2:06 | 8 | release again, a shade louder |
+| interlude | 1:54 | 4 | the lead plays the generator spiral and the sawtooth climb over roots that move up the generator chain; the seven-over-four vibes enter |
+| B | 2:06 | 8 | release again, a shade louder, with the sawtooth climb on line 3, the shrinking cadence on line 4, and the seven-over-four vibes underneath |
 | A | 2:32 | 8 | the third stanza returns; at **2:46** "the **light** falls" is sung on Zish, the spicy degree, over the tonic frame, and resolves up by the small step to Nimo and Vum. This is the one appearance of Zish in the whole song |
 | tag | 2:57 | 4 | "down where the slow moon goes", held; the lead answers with a closing figure to the frame chord |
 
@@ -377,6 +377,22 @@ then pillar) in the left hand, and small ascending chord-tone fills where the vo
 Upright bass in two: root on one, pillar on three, a short pickup into the next bar's root. Brushes
 swish on two and four; the ride ticks the beats and the swung off-beats. Final chorus and release are
 played a shade louder.
+
+**Patterns that exist only in this tuning.** Woven into the ballad, so the song stays a ballad:
+
+- *The generator spiral* (lead, interlude bars 1–2): Vum, Siri, Mor, Hilu, Nimo, each note a neutral
+  third (349 c) above the last, a chain of generators spanning 1397 c, then down by scale steps
+  Hilu, Ovit, Mor, Kun, Siri. A chain of equal neutral thirds has no counterpart in twelve-tone music.
+- *The sawtooth climb* (lead, interlude bars 3–4; voice, second release line 3, "I've got a pocket of
+  yesterdays"): up a neutral third, back down one scale step, again and again: Vum Siri Tol Kun Siri
+  Mor Kun Ovit Mor Hilu. Each pair nets a rise of 231 or 118 c, so the line climbs in sighs.
+- *A cycle of neutral thirds* (harmony, interlude): chord roots move up the generator chain, Vum →
+  Siri → Mor → Hilu, then Mor → Vum, the Morsiri analogue of a progression round the cycle of fifths.
+- *The seven over four* (vibes, interlude, second release and tag): a 7-unit ostinato, chord tones in
+  durations 3 + 2 + 2, looping across the 12-unit swung bars so it realigns with the downbeat only
+  every seven bars; the seven-pulse meter of the first Morsiri piece returns as a cross-rhythm.
+- *The shrinking cadence* (voice, second release line 4): the hook "one of them is mine" with durations
+  4, 3, 2, 1 into the long note, so the line accelerates into its resolution instead of slowing down.
 
 **Lyrics**
 
@@ -414,9 +430,9 @@ shifted 4 % down for warmth, a little air above 4 kHz, and unstressed syllables 
 4 dB of their neighbours. The voice's own overtones are harmonic, as any voice's are; the tuning rule
 applies to its pitches, which all come from the table.
 
-**Verification (performed).** `song.py` checks that all 1006 pitched events are table frequencies
+**Verification (performed).** `song.py` checks that all 1095 pitched events are table frequencies
 (0 failures), that Zish occurs exactly once (in the voice, at 2:46) and never in the band, that the
-melody moves by step 186 times and by leap 19 times, and that there are 23 leading-tone cadences.
+melody moves by step 184 times and by leap 21 times, and that there are 23 leading-tone cadences.
 `verify_vocal.py` tracks the pitch of the rendered vocal on every note long enough to measure
 (144 of 230; the rest are one-unit syllables shorter than the measuring window): median error
 0.5 c from the target, 90 % within 3 c, all within 15 c (worst 9 c, plosive-initial syllables).

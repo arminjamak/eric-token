@@ -62,10 +62,11 @@ A_H  = ["Vum", "Hilu", "Siri", CAD, "Sept", "Siri", "Hilu", CAD]
 A3_H = ["Vum", "Siri", "Hilu", "Hilu", "Vum", CAD, "Hilu", CAD]            # bar 5 of A3 holds the frame under Zish
 B_H  = ["Hilu", "Siri", "Hilu", CAD, "Siri", "Siri", "Sept:7,Mor:5", "Vum"]
 INTRO_H = ["Vum", "Hilu", "Siri", CAD]
-INST_H  = ["Sept", "Siri", "Hilu", CAD]
+INST_H  = ["Vum", "Siri", "Mor", "Hilu:5,Mor:4,Vum:3"]   # roots up the generator chain: a cycle of neutral thirds
 TAG_H   = ["Vum", "Hilu:6,Siri:6", CAD, "Vum"]
+B2_H = ["Hilu", "Siri", "Hilu", CAD, "Siri", "Sept", "Sept:7,Mor:5", "Vum"]
 SECTIONS = [("intro", INTRO_H), ("A1", A_H), ("A2", A_H), ("B", B_H), ("A3", A3_H),
-            ("interlude", INST_H), ("B'", B_H), ("A3'", A3_H), ("tag", TAG_H)]
+            ("interlude", INST_H), ("B'", B2_H), ("A3'", A3_H), ("tag", TAG_H)]
 HARMONY = [h for _, hs in SECTIONS for h in hs]
 NBARS = len(HARMONY); assert NBARS == 60
 
@@ -139,10 +140,23 @@ REST8 = [L(24)] * 4                                 # a silent 8-bar section
 # first time through, "light" is sung plainly on Tol; the reprise A3' carries the spicy Zish (the song's one peak)
 A3_PLAIN = A3[:2] + [L(1, ("it's", ["T01"]), ("the", ["S02"]), ("way", ["T02"]), ("the", ["V01"]), ("light", ["T05"]), ("falls", ["N-2"]),
                         ("on", ["V01"]), ("the", ["T01"]), ("bay", ["N-1", "V04"]), 3)] + A3[3:]
+# B the second time: line 3 climbs by neutral thirds and falls back a step each time (Vum Siri Tol Kun Siri Mor Kun Mor),
+# a pattern that exists only in a neutral-third scale; line 4 sings the hook with shrinking durations 4-3-2-1 into the long note
+B2 = B[:2] + [
+ L(1, ("I've", ["V01"]), ("got", ["S02"]), ("a", ["T01"]), ("pock-", ["K02"]), ("et", ["S01"]), ("of", ["M02"]),
+   ("yes-", ["K01"]), ("ter-", ["M02"]), ("days", ["K05"]), 6),
+ L(1, ("and", ["T01"]), ("ev-", ["S01"]), ("ry", ["T01"]), ("one", ["V04"]), ("of", ["N-3"]), ("them", ["V02"]),
+   ("is", ["N-1"]), ("mine", ["V08"]), 2),
+]
 VOCAL = [("intro", [L(24)] * 2), ("A1", A1), ("A2", A2), ("B", B), ("A3", A3_PLAIN), ("interlude", [L(24)] * 2),
-         ("B'", B), ("A3'", A3), ("tag", TAG)]
+         ("B'", B2), ("A3'", A3), ("tag", TAG)]
 # clarinet-like lead: the "moon goes" line in the intro, lines 3-4 of A in the interlude, a closing figure in the tag
-LEAD = [("intro", [L(24), A1[3]]), ("interlude", [A1[2], A1[3]]),
+SPIRAL = L(("", ["V02"]), ("", ["S02"]), ("", ["M02"]), ("", ["H02"]), ("", ["N03"]), 1,          # up the generator chain
+           ("", ["H02"]), ("", ["O02"]), ("", ["M02"]), ("", ["K02"]), ("", ["S04"]))               # down by scale steps
+CLIMB  = L(("", ["V01"]), ("", ["S02"]), ("", ["T01"]), ("", ["K02"]), ("", ["S01"]), ("", ["M02"]), ("", ["K01"]),
+           ("", ["O02"]), ("", ["M01"]), ("", ["H02"]),                                             # sawtooth: +g, -step
+           ("", ["O02"]), ("", ["M01"]), ("", ["K01"]), ("", ["S01"]), ("", ["T01"]), ("", ["N-1"]), ("", ["V02"]))  # quickening fall, cadence
+LEAD = [("intro", [L(24), A1[3]]), ("interlude", [SPIRAL, CLIMB]),
         ("tag", [L(24), L(2, ("", ["K02"]), ("", ["S02"]), ("", ["T02"]), ("", ["N-2"]), ("", ["V014"]))])]
 LEAD_OFFSET = {"intro": 0, "interlude": 0, "tag": 0}
 
@@ -155,7 +169,20 @@ def section_start(name):
     raise KeyError(name)
 
 def build():
-    ev = {k: [] for k in ("piano", "pianobass", "bass", "brush", "ride", "lead", "vocal")}
+    ev = {k: [] for k in ("piano", "pianobass", "bass", "brush", "ride", "lead", "vocal", "vibes")}
+    # the 7-cycle: chord tones in durations 3 + 2 + 2, looping every 7 units across 12-unit bars, so it realigns with the
+    # downbeat only every 7 bars. It sounds in the interlude, the second release and the tag.
+    for sec in ("interlude", "B'", "tag"):
+        b0 = section_start(sec); nb = dict(SECTIONS)[sec].__len__()
+        u0, u1 = b0 * BAR, (b0 + nb) * BAR
+        u = u0; k = 0
+        while u < u1 - 1:
+            off, dur = [(0, 3), (3, 2), (5, 2)][k % 3]
+            bar, pos = divmod(u, BAR)
+            tones = CHORDS[chord_at(bar, pos)]
+            dgp = tones[[1, 2, 0][k % 3]]
+            ev["vibes"].append(dict(t=u, d=dur, f=[hz(dgp[0], dgp[1] + 1)], a=0.055))
+            u += dur; k += 1
     # ---- rhythm section, bar by bar
     for bar, h in enumerate(HARMONY):
         t0 = bar * BAR

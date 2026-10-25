@@ -65,6 +65,13 @@ defs = [
         var sig = HPF.ar(WhiteNoise.ar, 7000) + (SinOsc.ar(5100 + Rand(-200, 200)) * 0.15);
         Out.ar(out, Pan2.ar(sig * env * amp * 0.6, pan));
     }),
+    // vibes: a long ringing matched-spectrum tone with a slow tremolo
+    SynthDef(\vibes, { |out = 0, freq = 440, amp = 0.06, sus = 0.5, pan = 0|
+        var env = EnvGen.kr(Env.perc(0.002, 1.6, 1, -3), doneAction: 2);
+        var trem = 1 - (0.25 * (1 + SinOsc.kr(4.2, Rand(0, 2pi))) * 0.5);
+        var sig = Mix.fill(4, { |i| SinOsc.ar(freq * partials[i], Rand(0, 2pi)) * pamps[i] * EnvGen.kr(Env.perc(0.001, 1.6 / (1 + i), 1, -3)) }) / 2.4;
+        Out.ar(out, Pan2.ar(sig * trem * env * amp, pan));
+    }),
     // clarinet-like lead: the matched spectrum with breath, slow attack and a singer's vibrato
     SynthDef(\lead, { |out = 0, freq = 220, amp = 0.2, sus = 0.5, pan = 0|
         var vib = 1 + (SinOsc.kr(4.9, Rand(0, 2pi)) * 0.004 * EnvGen.kr(Env.new([0, 0, 1], [0.25, 0.3])));
@@ -74,8 +81,8 @@ defs = [
         Out.ar(out, Pan2.ar((sig + breath) * env * amp, pan));
     })
 ];
-synthFor = (piano: \piano, pianobass: \pianobass, bass: \bass, brush: \brush, ride: \ride, lead: \lead, vocal: \lead);
-panFor = (piano: 0.25, pianobass: 0.2, bass: -0.1, brush: -0.35, ride: -0.3, lead: 0.35, vocal: 0.0);
+synthFor = (piano: \piano, pianobass: \pianobass, bass: \bass, brush: \brush, ride: \ride, lead: \lead, vibes: \vibes, vocal: \lead);
+panFor = (piano: 0.25, pianobass: 0.2, bass: -0.1, brush: -0.35, ride: -0.3, lead: 0.35, vibes: -0.45, vocal: 0.0);
 guide = "MORSIRI_GUIDE".getenv.notNil;
 
 list = List.new;
