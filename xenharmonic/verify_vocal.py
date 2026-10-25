@@ -7,7 +7,7 @@ x = (np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16) / 32768.0).asty
 f0, t = pw.dio(x, sr, frame_period=5.0, f0_floor=60, f0_ceil=500); f0 = pw.stonemask(x, f0, t, sr)
 errs = []
 for ev in song["events"]["vocal"]:
-    a, b = ev["t"] * pulse + 0.09, (ev["t"] + ev["d"]) * pulse - 0.06
+    a, b = ev["t"] * pulse + 0.16, (ev["t"] + ev["d"]) * pulse - 0.05
     if b - a < 0.08: continue
     seg = f0[int(a / 0.005): int(b / 0.005)]; seg = seg[seg > 0]
     if len(seg) < 5: continue

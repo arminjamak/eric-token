@@ -318,21 +318,23 @@ after the first note; they are now placed at the head of the score.
 
 ---
 
-## The song: "Where the Slow Moon Goes" (3:06)
+## The song: "Where the Slow Moon Goes" (3:15)
 
-A full song in Morsiri with a sung lead, built from the same tuning array. Listen:
-`where_the_slow_moon_goes.mp3`. The lyric is an original in the manner of Hoagy Carmichael's
-songbook, slow river, porch light, a pocket of yesterdays.
+A slow swing ballad in Morsiri in the manner of a 1930s Hoagy Carmichael song: AABA form with an
+instrumental half-chorus and a tag, piano comping, upright bass in two, brushes, a clarinet-like
+lead taking the tune between vocal choruses, and a crooned baritone vocal. Listen:
+`where_the_slow_moon_goes.mp3`. The lyric is an original in the Carmichael manner (slow river,
+porch light, an off-key piano, "a pocket of yesterdays").
 
 | file | role |
 |---|---|
-| `song.py` | the whole score: groove, chords, bass, arpeggio, melody, lyrics; validates and writes `song.json` |
-| `morsiri_song.scd` | SuperCollider instruments; plays `song.json` live or renders `song_instrumental.wav` offline |
-| `sing.py` | the singer: Piper voice + WORLD vocoder, every syllable forced onto a table frequency |
-| `mix.py` | mix, room, levelling, limiter, mp3 |
+| `song.py` | the whole score: key, form, harmony, comping, bass, melody, lyrics; validates and writes `song.json` |
+| `morsiri_song.scd` | SuperCollider band; plays `song.json` live or renders `song_instrumental.wav` offline |
+| `sing.py` | the crooner: Piper voice + WORLD vocoder, word by word, every vowel forced onto a table frequency |
+| `mix.py` | 1930s-flavoured mix: band-limited, saturated, short warm plate, voice up front; writes the mp3 |
 | `verify_vocal.py` | measures the pitch actually sung and compares it with the table |
 
-Build (SuperCollider 3.13, Python 3 with `numpy`, `pyworld`, `piper-tts`, and ffmpeg):
+Build (SuperCollider 3.13; Python 3 with `numpy`, `pyworld`, `piper-tts`; ffmpeg):
 
 ```
 python3 song.py
@@ -341,33 +343,40 @@ MORSIRI_RENDER=song_instrumental.wav sclang morsiri_song.scd
 python3 sing.py && python3 mix.py && python3 verify_vocal.py
 ```
 
-**Form** (86 bars of 7 pulses at 0.30 s, 180.6 s plus tail):
+**Key.** The tuning table above is given at tonic 220 Hz. The song is sung a just 4/3 lower, tonic
+165 Hz, the same scale in a baritone's key: the vocal range is Mor one period down (103 Hz) to Mor
+(247 Hz) with the tonic in the middle, where Carmichael himself sang. Every frequency in the song is
+165 × ratio[degree] × (12/5)^k.
+
+**Time.** 76 bpm in four, swung: a triplet grid of 12 units per bar (a swung eighth is 2 + 1 units).
+The brief's original asymmetric meter is given up here on purpose: a Carmichael ballad lives in a lazy
+four, and the novelty is carried by the tuning, the chords and the melodic cadence instead.
+
+**Form** (60 bars, 189.5 s plus tail):
 
 | section | time | bars | what happens |
 |---|---|---|---|
-| intro | 0:00 | 4 | hats alone, kicks enter in bar 2, claps and the frame chord in bar 3 |
-| verse 1 | 0:08 | 16 | four lines, each a four-bar phrase ending on the leading-tone cadence Nimo → Vum |
-| chorus 1 | 0:42 | 12 | the melody moves up to live around Mor and Kun; the hook "of them is mine" rocks Vum–Nimo–Vum |
-| verse 2 | 1:07 | 16 | as verse 1, new words |
-| chorus 2 | 1:41 | 12 | |
-| bridge | 2:06 | 8 | "it's the way the **light** falls": at 2:16 the voice holds Zish, the spicy degree, over the tonic frame, then steps up to Nimo and Vum |
-| chorus 3 | 2:23 | 12 | a second voice joins a chord tone below; pads gain a voice one period up |
-| outro | 2:48 | 6 | the last line returns, "where the slow moon goes", then the frame chord |
+| intro | 0:00 | 4 | piano and bass set the two-feel; the lead plays the "moon goes" line |
+| A | 0:13 | 8 | four two-bar lines; lines 1 and 3 end open on Tol or Siri, lines 2 and 4 cadence Nimo → Vum |
+| A | 0:38 | 8 | second stanza |
+| B | 1:03 | 8 | the release: the melody moves up to live around Mor and Kun; the hook "and every one of them is mine" rocks Vum–Nimo–Vum |
+| A | 1:28 | 8 | third stanza, sung plainly the first time |
+| interlude | 1:54 | 4 | the lead plays lines 3 and 4 of A over the band |
+| B | 2:06 | 8 | release again, a shade louder |
+| A | 2:32 | 8 | the third stanza returns; at **2:46** "the **light** falls" is sung on Zish, the spicy degree, over the tonic frame, and resolves up by the small step to Nimo and Vum. This is the one appearance of Zish in the whole song |
+| tag | 2:57 | 4 | "down where the slow moon goes", held; the lead answers with a closing figure to the frame chord |
 
-**Groove.** A fourteen-pulse cycle (two bars). Bar one accents 3 + 2 + 2; bar two answers with
-kicks on 7, 10 and 12 and a clap on 13 as a pickup, so the cycle leans into its own downbeat.
-Kick on 0, 3, 7, 10, 12; clap on 5, 9, 13; hats on every half pulse with accents on the kick
-pattern. The kick is tuned: it drops from one period above its pitch down to it, not from an
-octave. The bass plays the chord root on the kicks, the pillar above it on 9, and the next
-chord's root on 13. A plucked arpeggio one period above the pads cycles chord tones on the
-half pulses in the pattern root · — · third · fifth · — · third · root · — · fifth · — · third · root · fifth · —.
+**Harmony.** A: Vum | Hilu | Siri | Mor→Vum | Sept | Siri | Hilu | Mor→Vum. B: Hilu | Siri | Hilu |
+Mor→Vum | Siri | Siri | Sept→Mor | Vum. The last A: Vum | Siri | Hilu | Hilu | Vum | Mor→Vum | Hilu |
+Mor→Vum, bar 5 holding the frame under Zish. Chords are the frame 1 : 3/2 : 12/5, the septimal
+colour 1 : 7/5 : 12/5, and quintal triads 1 : 3/2 : 9/4 on Siri, Hilu and Mor; the Mor chord carries
+the leading tone, and cadence bars push the tonic chord on the and-of-two, as a pianist would.
 
-**Harmony.** Verse: Vum | Hilu | Siri | Mor→Vum, Vum | Sept | Hilu | Mor→Vum, Siri | Hilu | Vum |
-Mor→Vum, Sept | Siri | Hilu | Mor→Vum. Chorus: Hilu | Siri | Hilu | Siri, Vum | Sept | Hilu |
-Mor→Vum, Hilu | Siri | Mor | Vum. Bridge: Siri | Hilu | Siri | Siri→Mor | Vum | Mor→Vum | Vum |
-Mor→Vum. Every chord is the frame 1 : 3/2 : 12/5, the septimal colour 1 : 7/5 : 12/5, or a quintal
-triad 1 : 3/2 : 9/4 on Siri, Hilu or Mor. The Mor chord carries the leading tone, so each
-cadence bar is four pulses of Mor and three of Vum.
+**Comping.** Piano: chord on one, chord pushed on the and-of-two or on three, stride bass notes (root,
+then pillar) in the left hand, and small ascending chord-tone fills where the voice rests at line ends.
+Upright bass in two: root on one, pillar on three, a short pickup into the next bar's root. Brushes
+swish on two and four; the ride ticks the beats and the swung off-beats. Final chorus and release are
+played a shade louder.
 
 **Lyrics**
 
@@ -376,43 +385,40 @@ cadence bar is four pulses of Mor and three of Vum.
 > I hum the tune that the porch light knows,
 > and the moon comes 'round where the slow moon goes.
 >
-> Oh, slow moon, carry me easy,
-> over the water, under the pine,
-> I've got a pocket of yesterdays,
-> and every one of them is mine.
->
 > The old piano's a little off key,
 > but it still remembers the songs we sang,
 > there's a train somewhere that was never mine,
 > and a screen door somewhere that used to bang.
 >
-> *(chorus)*
+> Oh, slow moon, carry me easy,
+> over the water, under the pine,
+> I've got a pocket of yesterdays,
+> and every one of them is mine.
 >
-> And if you wonder why I stay,
-> it's the way the light falls on the bay.
->
-> *(chorus, with a second voice)*
->
-> ... where the slow moon goes.
+> And if you wonder why I stay
+> when the paint's worn thin and the dock's gone gray,
+> it's the way the light falls on the bay,
+> down where the slow moon goes.
 
-**The voice.** There is no human singer in this repository; the vocal is synthesized. A neural
-U.S.-English male speaking voice (Piper "ryan", trained on the RyanSpeech corpus, licence
-CC BY-NC-SA 4.0, so non-commercial use only) is driven at the phoneme level, one lyric syllable
-at a time. Each syllable is analysed with the WORLD vocoder, its vowel is stretched to the note
-length (only the steady middle is stretched; the first and last 30 ms keep their natural
-speed), and its pitch contour is replaced by the exact table frequency with vibrato (5.3 Hz,
-11 c, fading in after 180 ms), portamento between syllables of a word and a small scoop at
-phrase starts. The spectral envelope is kept, so it stays the same man. The harmony voice of the
-final chorus is the same model with its formants shifted 6 % down. The voice's own overtones are
-harmonic, as any human voice's are; the tuning rule applies to its pitches, which all come from
-the table. The singing range is Mor one period down (137 Hz) to Mor (329 Hz), with the tonic
-in the middle, like a baritone's comfortable tessitura.
+**The voice.** There is no human singer in this repository; the vocal is synthesized, and it is meant
+to sound like a crooner on an old record rather than a modern studio vocal. A neural U.S.-English
+male speaking voice (Piper "ryan", trained on the RyanSpeech corpus, licence CC BY-NC-SA 4.0, so
+non-commercial use only) is synthesized one word at a time, so consonant-to-vowel transitions inside
+words are the voice's own. Each word is analysed with the WORLD vocoder and cut into its syllables at
+the dips of a low-band sonority curve; each vowel (found by low-band loudness, so fricatives are not
+mistaken for vowels) is stretched to its note, only its steady middle being stretched, and its pitch is
+replaced by the exact table frequency with: a 70-cent scoop into phrase starts, a 30-cent fall-off at
+phrase ends, portamento between syllables of a word, slow vibrato (4.8 Hz, 9 c) arriving a quarter
+second into each note, onsets 35 to 75 ms behind the beat, a breath before each phrase, formants
+shifted 4 % down for warmth, a little air above 4 kHz, and unstressed syllables levelled to within
+4 dB of their neighbours. The voice's own overtones are harmonic, as any voice's are; the tuning rule
+applies to its pitches, which all come from the table.
 
-**Verification (performed).** `song.py` checks that all 1822 pitched instrument and vocal events
-are table frequencies (0 failures), that Zish occurs exactly once (in the voice, at 2:16) and
-never in pads, plucks or bass, that the melody moves by step 176 times and by leap 20 times,
-and that there are 25 leading-tone cadences. `verify_vocal.py` tracks the pitch of the rendered
-vocal: all 216 sung notes measured, median error 0.6 c from the target, 90 % within 3.6 c, 99 %
-within 15 c (the worst, 15 c, are one-pulse syllables that begin with a plosive). The SuperCollider
-file ran under sclang 3.13 with no errors; the mix peaks at 0.97 with sections within 1.5 dB of
-each other.
+**Verification (performed).** `song.py` checks that all 1006 pitched events are table frequencies
+(0 failures), that Zish occurs exactly once (in the voice, at 2:46) and never in the band, that the
+melody moves by step 186 times and by leap 19 times, and that there are 23 leading-tone cadences.
+`verify_vocal.py` tracks the pitch of the rendered vocal on every note long enough to measure
+(144 of 230; the rest are one-unit syllables shorter than the measuring window): median error
+0.5 c from the target, 90 % within 3 c, all within 15 c (worst 9 c, plosive-initial syllables).
+The SuperCollider band rendered under sclang 3.13 with no errors; the mix peaks at 0.97 with the
+sung sections within 0.6 dB of each other.

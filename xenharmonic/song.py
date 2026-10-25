@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
 """
-"Where the Slow Moon Goes" — a 3-minute song in the Morsiri scale (period 12/5, 9 notes).
+"Where the Slow Moon Goes" — a slow swing ballad in the Morsiri scale, in the manner of a 1930s
+Hoagy Carmichael song: AABA form, piano comping, upright bass in two, brushes, a clarinet-like
+lead, and a crooned vocal. 76 bpm, swung eighths on a triplet grid (12 units per 4/4 bar).
 
-This file is the single source of truth for the song: tuning, groove, chords, bass, arpeggio,
-melody and lyrics. It validates the score against the scale's rules and writes song.json,
-which morsiri_song.scd (instruments, SuperCollider) and sing.py (voice) both read.
+This file is the single source of truth: tuning, key, form, harmony, comping, melody and lyrics.
+It validates the score against the scale's rules and writes song.json, which morsiri_song.scd
+(instruments, SuperCollider) and sing.py (voice) both read.
 
-Pitch notation used in the melody tables: a degree letter followed by a period shift.
+Pitch tokens in the melody tables: degree letter + period shift.
     V Vum (tonic)  T Tol  S Siri  K Kun  M Mor (pillar)  O Ovit  H Hilu  Z Zish (spicy)  N Nimo
-    "V0" = Vum in the tonic period (220 Hz), "N-" = Nimo one period down (205.5 Hz, the leading tone),
-    "M-" = Mor one period down (137.2 Hz).  Every pitch is looked up in RATIOS; nothing else.
+    "V0" Vum in the tonic period, "N-" Nimo one period down (the leading tone), "M-" Mor one period down.
+Every frequency is 'KEY * RATIOS[degree] * PERIOD**k'. Nothing else is ever used as a pitch.
 """
-import json, math, sys
-from fractions import Fraction
+import json, math
 
-# ------------------------------------------------------------------ tuning (same as morsiri.scd)
-TONIC = 220.0
+# ------------------------------------------------------------------ tuning
+TABLE_TONIC = 220.0                        # the reference tonic of the Morsiri tuning table
+KEY = TABLE_TONIC * 3 / 4                  # the song's key: tonic 165 Hz, a 4/3 below the table, a baritone's range
 PERIOD = 12 / 5
 GEN = ((8 / 7) * (12 / 5)) ** (1 / 5)
 _chain = []
@@ -23,260 +25,237 @@ for k in range(9):
     r = GEN ** k
     while r >= PERIOD: r /= PERIOD
     _chain.append(r)
-RATIOS = sorted(_chain)                                     # the frequency array (as ratios)
+RATIOS = sorted(_chain)
 NAMES = ["Vum", "Tol", "Siri", "Kun", "Mor", "Ovit", "Hilu", "Zish", "Nimo"]
 LETTER = {"V": 0, "T": 1, "S": 2, "K": 3, "M": 4, "O": 5, "H": 6, "Z": 7, "N": 8}
-CHAIN_POS = {RATIOS.index(r): k for k, r in enumerate(_chain)}   # degree -> generator count
+CHAIN_POS = {RATIOS.index(r): k for k, r in enumerate(_chain)}
 POS_DEG = {v: k for k, v in CHAIN_POS.items()}
 
-def hz(deg, per=0):
-    return TONIC * RATIOS[deg] * PERIOD ** per
-
-def tok(t):
-    """'V0' -> (deg, per);  'N-' -> (deg, -1);  'M+' -> (deg, +1)"""
-    deg = LETTER[t[0]]
-    per = {"0": 0, "-": -1, "+": 1, "=": -2}[t[1]]
-    return deg, per
-
-def cents(a, b):  # interval in cents from pitch a to pitch b, each (deg, per)
-    return 1200 * math.log2(hz(*b) / hz(*a))
+def hz(deg, per=0): return KEY * RATIOS[deg] * PERIOD ** per
+def tok(t): return LETTER[t[0]], {"0": 0, "-": -1, "+": 1}[t[1]]
+def cents(a, b): return 1200 * math.log2(hz(*b) / hz(*a))
 
 # ------------------------------------------------------------------ time
-PULSE = 0.30            # seconds; 7 pulses per bar grouped 3+2+2 (bar = 2.1 s)
-BAR = 7
+BPM = 76
+UNIT = 60 / BPM / 3                        # a triplet eighth: 0.263 s; swung eighths are 2 + 1 units
+BAR = 12
 
-# ------------------------------------------------------------------ chords
-# Quintal triads built from the scale's most consonant intervals: root, root+Mor (3/2), root+Nimo (9/4).
-# A chord on generator position p uses positions p, p+2, p+4. Roots are placed one period down.
-def quintal(root_letter):
-    deg = LETTER[root_letter]; p = CHAIN_POS[deg]
-    tones = []
-    for q in (p, p + 2, p + 4):
-        d = POS_DEG[q]
-        # chain positions 5..8 (Tol, Kun, Ovit, Zish) fall in the period above the root's
-        per = -1 + (1 if q >= 5 else 0)
-        tones.append((d, per))
-    return tones
-
+# ------------------------------------------------------------------ chords (root one period down)
+def quintal(letter):
+    p = CHAIN_POS[LETTER[letter]]
+    return [(POS_DEG[q], -1 + (1 if q >= 5 else 0)) for q in (p, p + 2, p + 4)]
 CHORDS = {
-    "Vum":  [(0, -1), (4, -1), (0, 0)],         # tonic frame     1 : 3/2 : 12/5
-    "Sept": [(0, -1), (3, -1), (0, 0)],         # septimal colour 1 : 7/5 : 12/5
-    "Mor":  quintal("M"),                       # 1 : 3/2 : 9/4 on the pillar (contains the leading tone Nimo)
+    "Vum":  [(0, -1), (4, -1), (0, 0)],    # tonic frame      1 : 3/2 : 12/5
+    "Sept": [(0, -1), (3, -1), (0, 0)],    # septimal colour  1 : 7/5 : 12/5
+    "Mor":  quintal("M"),                  # 1 : 3/2 : 9/4 on the pillar; holds the leading tone
     "Hilu": quintal("H"),
     "Siri": quintal("S"),
 }
-# sanity: every quintal chord really is 1 : 3/2 : 9/4
-for name in ("Mor", "Hilu", "Siri"):
-    r, a, b = CHORDS[name]
-    assert abs(cents(r, a) - 698.7) < 0.5 and abs(cents(r, b) - 1397.5) < 0.5, (name, cents(r, a), cents(r, b))
+for nm in ("Mor", "Hilu", "Siri"):
+    r, a, b = CHORDS[nm]
+    assert abs(cents(r, a) - 698.7) < 0.5 and abs(cents(r, b) - 1397.5) < 0.5
 
 # ------------------------------------------------------------------ form and harmony
-# One entry per bar: a chord name, or "Mor>Vum" for a cadence bar (Mor 4 pulses, Vum 3 pulses).
-VERSE_H  = ["Vum", "Hilu", "Siri", "Mor>Vum",   "Vum", "Sept", "Hilu", "Mor>Vum",
-            "Siri", "Hilu", "Vum", "Mor>Vum",   "Sept", "Siri", "Hilu", "Mor>Vum"]
-CHORUS_H = ["Hilu", "Siri", "Hilu", "Siri",     "Vum", "Sept", "Hilu", "Mor>Vum",
-            "Hilu", "Siri", "Mor", "Vum"]
-BRIDGE_H = ["Siri", "Hilu", "Siri", "Siri>Mor", "Vum", "Mor>Vum", "Vum", "Mor>Vum"]
-INTRO_H  = [None, None, "Vum", "Vum"]
-OUTRO_H  = ["Vum", "Hilu", "Siri", "Mor>Vum", "Vum", "Vum"]
-
-SECTIONS = [("intro", INTRO_H), ("verse 1", VERSE_H), ("chorus 1", CHORUS_H), ("verse 2", VERSE_H),
-            ("chorus 2", CHORUS_H), ("bridge", BRIDGE_H), ("chorus 3", CHORUS_H), ("outro", OUTRO_H)]
+# per bar: "Name" or "A:len,B:len" (units). Cadence bars push the tonic chord on the and-of-two: "Mor:5,Vum:7".
+CAD = "Mor:5,Vum:7"
+A_H  = ["Vum", "Hilu", "Siri", CAD, "Sept", "Siri", "Hilu", CAD]
+A3_H = ["Vum", "Siri", "Hilu", "Hilu", "Vum", CAD, "Hilu", CAD]            # bar 5 of A3 holds the frame under Zish
+B_H  = ["Hilu", "Siri", "Hilu", CAD, "Siri", "Siri", "Sept:7,Mor:5", "Vum"]
+INTRO_H = ["Vum", "Hilu", "Siri", CAD]
+INST_H  = ["Sept", "Siri", "Hilu", CAD]
+TAG_H   = ["Vum", "Hilu:6,Siri:6", CAD, "Vum"]
+SECTIONS = [("intro", INTRO_H), ("A1", A_H), ("A2", A_H), ("B", B_H), ("A3", A3_H),
+            ("interlude", INST_H), ("B'", B_H), ("A3'", A3_H), ("tag", TAG_H)]
 HARMONY = [h for _, hs in SECTIONS for h in hs]
-NBARS = len(HARMONY)
-assert NBARS == 86
+NBARS = len(HARMONY); assert NBARS == 60
 
 def bar_chords(h):
-    """-> list of (chord name, start pulse within bar, pulses)"""
-    if h is None: return []
-    if ">" in h:
-        a, b = h.split(">")
-        return [(a, 0, 4), (b, 4, 3)]
-    return [(h, 0, 7)]
+    if ":" not in h: return [(h, 0, BAR)]
+    out, pos = [], 0
+    for part in h.split(","):
+        nm, ln = part.split(":"); out.append((nm, pos, int(ln))); pos += int(ln)
+    assert pos == BAR, h
+    return out
 
-# ------------------------------------------------------------------ groove: a 14-pulse (two-bar) cycle
-# kick = period-tuned thump, clap = noise burst, hat = short noise on every half pulse.
-# bar one accents 3+2+2 (pulses 0,3,5); bar two answers with 3+3+1 (7,10,13 as a pickup) and an
-# extra kick on 12 so the cycle leans into its own downbeat.
-KICK = [0, 3, 7, 10, 12]
-CLAP = [5, 9, 13]
-HAT_ACCENT = [0, 3, 5, 7, 10, 12]
-# bass: root on the kicks, a pillar-above passing tone on 9, the next root anticipated on 13
-BASS_CYCLE = [(0, "root", 3), (3, "root", 2), (7, "root", 2), (9, "fifth", 1), (10, "root", 2), (12, "root", 1), (13, "next", 1)]
-# arpeggio (pluck): chord-tone index per half pulse, 14 half-pulses per bar
-ARP = [0, None, 1, 2, None, 1, 0, None, 2, None, 1, 0, 2, None]
+def chord_at(bar, unit):
+    return [c for c in bar_chords(HARMONY[bar]) if c[1] <= unit < c[1] + c[2]][0][0]
 
-# ------------------------------------------------------------------ melody + lyrics
-# Each line: list of (lyric syllable or None for rest, [(pitch token, pulses), ...]) ; a syllable with several
-# pitches is a melisma. Every line is exactly 4 bars = 28 pulses (verse/chorus) so lines align with harmony.
+# ------------------------------------------------------------------ melody + lyrics  (each line = 2 bars = 24 units)
 def L(*items):
     out = []
     for it in items:
         if isinstance(it, int): out.append((None, [("rest", it)]))
-        else:
-            syl, notes = it
-            out.append((syl, [(n[:2], int(n[2:])) if isinstance(n, str) else n for n in notes]))
+        else: out.append((it[0], [(n[:2], int(n[2:])) for n in it[1]]))
+    total = sum(d for _, ns in out for _, d in ns); assert total <= 24, (total, items)
+    if total < 24:                                    # the line's closing rest absorbs the remainder
+        if out[-1][0] is None: out[-1] = (None, [("rest", out[-1][1][0][1] + 24 - total)])
+        else: out.append((None, [("rest", 24 - total)]))
     return out
 
-def n(tokdur):  # "V02" -> ("V0", 2)
-    return (tokdur[:2], int(tokdur[2:]))
+# Lines 1 and 3 of each A end open (on Tol over Hilu, or Siri over Siri); lines 2 and 4 cadence Nimo -> Vum.
+A1 = [
+ L(1, ("Down", ["V03"]), ("where", ["T01"]), ("the", ["S02"]), ("ri-", ["K02"]), ("ver", ["M03"]), ("for-", ["K01"]),
+   ("gets", ["S02"]), ("its", ["T01"]), ("own", ["V02"]), ("name", ["T04"]), 2),
+ L(2, ("the", ["N-1"]), ("wil-", ["V02"]), ("lows", ["T01"]), ("lean", ["S03"]), ("and", ["T01"]), ("the", ["S02"]),
+   ("night", ["M02"]), ("runs", ["K02"]), ("slow", ["T01", "N-1", "V04"]), 2),
+ L(1, ("I", ["M-2"]), ("hum", ["H-1"]), ("the", ["N-2"]), ("tune", ["V03"]), ("that", ["T01"]), ("the", ["S02"]),
+   ("porch", ["S02"]), ("light", ["T02"]), ("knows", ["S05"]), 3),
+ L(1, ("and", ["V01"]), ("the", ["T01"]), ("moon", ["S03"]), ("comes", ["K01"]), ("round", ["M03"]), ("where", ["K01"]),
+   ("the", ["S02"]), ("slow", ["T02"]), ("moon", ["V02"]), ("goes", ["N-1", "V05"]), 1),
+]
+A2 = [
+ L(1, ("The", ["V01"]), ("old", ["T02"]), ("pi-", ["S02"]), ("a-", ["K01"]), ("no's", ["M03"]), ("a", ["K01"]),
+   ("lit-", ["S02"]), ("tle", ["T01"]), ("off", ["V02"]), ("key", ["T05"]), 2),
+ L(2, ("but", ["N-1"]), ("it", ["V01"]), ("still", ["T02"]), ("re-", ["S01"]), ("mem-", ["K02"]), ("bers", ["S02"]),
+   ("the", ["T01"]), ("songs", ["S02"]), ("we", ["T01"]), ("sang", ["N-1", "V04"]), 4),
+ L(1, ("there's", ["M-1"]), ("a", ["H-1"]), ("train", ["N-2"]), ("some-", ["V02"]), ("where", ["T01"]), ("that", ["S02"]),
+   ("was", ["K01"]), ("nev-", ["S02"]), ("er", ["T01"]), ("mine", ["S05"]), 4),
+ L(1, ("and", ["V01"]), ("a", ["T01"]), ("screen", ["S02"]), ("door", ["K01"]), ("some-", ["M03"]), ("where", ["K01"]),
+   ("that", ["S02"]), ("used", ["T02"]), ("to", ["V02"]), ("bang", ["N-1", "V05"]), 2),
+]
+B = [
+ L(1, ("Oh", ["M03"]), ("slow", ["K02"]), ("moon", ["M03"]), ("car-", ["K01"]), ("ry", ["S02"]), ("me", ["K02"]),
+   ("ea-", ["S02"]), ("sy", ["T03"]), 5),
+ L(1, ("o-", ["M03"]), ("ver", ["K01"]), ("the", ["S02"]), ("wa-", ["T03"]), ("ter", ["S01"]), ("un-", ["K02"]),
+   ("der", ["S02"]), ("the", ["T01"]), ("pine", ["N-1", "V05"]), 2),
+ L(1, ("I've", ["T01"]), ("got", ["S02"]), ("a", ["T01"]), ("pock-", ["S02"]), ("et", ["K01"]), ("of", ["S02"]),
+   ("yes-", ["M03"]), ("ter-", ["K01"]), ("days", ["S04"]), 6),
+ L(1, ("and", ["T01"]), ("ev-", ["S02"]), ("ry", ["T01"]), ("one", ["V03"]), ("of", ["N-1"]), ("them", ["V02"]),
+   ("is", ["N-1"]), ("mine", ["V08"]), 4),
+]
+A3 = [
+ L(1, ("And", ["M-2"]), ("if", ["H-1"]), ("you", ["N-2"]), ("won-", ["V03"]), ("der", ["T01"]), ("why", ["S03"]),
+   ("I", ["T02"]), ("stay", ["S05"]), 4),
+ L(1, ("when", ["S01"]), ("the", ["T01"]), ("paint's", ["S02"]), ("worn", ["K02"]), ("thin", ["M02"]), ("and", ["K01"]),
+   ("the", ["S02"]), ("dock's", ["T02"]), ("gone", ["S02"]), ("gray", ["T04"]), 4),
+ # the peak: "light" on Zish, the spicy degree, over the tonic frame; it resolves up by the small step to Nimo
+ L(1, ("it's", ["T01"]), ("the", ["S02"]), ("way", ["T02"]), ("the", ["V01"]), ("light", ["Z-5"]), ("falls", ["N-2"]),
+   ("on", ["V01"]), ("the", ["T01"]), ("bay", ["N-1", "V04"]), 3),
+ L(2, ("down", ["V02"]), ("where", ["T01"]), ("the", ["S02"]), ("slow", ["T03"]), ("moon", ["V02"]), ("goes", ["N-1", "V07"]), 4),
+]
+TAG = [L(2, ("down", ["V03"]), ("where", ["T02"]), ("the", ["S01"]), ("slow", ["T04"]), ("moon", ["V02"]), ("goes", ["N-2", "V07"]), 1),
+       L(24)]
+REST8 = [L(24)] * 4                                 # a silent 8-bar section
+# first time through, "light" is sung plainly on Tol; the reprise A3' carries the spicy Zish (the song's one peak)
+A3_PLAIN = A3[:2] + [L(1, ("it's", ["T01"]), ("the", ["S02"]), ("way", ["T02"]), ("the", ["V01"]), ("light", ["T05"]), ("falls", ["N-2"]),
+                        ("on", ["V01"]), ("the", ["T01"]), ("bay", ["N-1", "V04"]), 3)] + A3[3:]
+VOCAL = [("intro", [L(24)] * 2), ("A1", A1), ("A2", A2), ("B", B), ("A3", A3_PLAIN), ("interlude", [L(24)] * 2),
+         ("B'", B), ("A3'", A3), ("tag", TAG)]
+# clarinet-like lead: the "moon goes" line in the intro, lines 3-4 of A in the interlude, a closing figure in the tag
+LEAD = [("intro", [L(24), A1[3]]), ("interlude", [A1[2], A1[3]]),
+        ("tag", [L(24), L(2, ("", ["K02"]), ("", ["S02"]), ("", ["T02"]), ("", ["N-2"]), ("", ["V014"]))])]
+LEAD_OFFSET = {"intro": 0, "interlude": 0, "tag": 0}
 
-VERSE1 = [
- L(1, ("Down", ["V03"]), ("where", ["T01"]), ("the", ["S01"]), ("ri-", ["K02"]), ("ver", ["M03"]), ("for-", ["K01"]),
-   ("gets", ["S02"]), ("its", ["T01"]), ("own", ["V02"]), ("name", ["N-1", "V04"]), 6),
- L(1, ("the", ["N-1"]), ("wil-", ["V02"]), ("lows", ["T01"]), ("lean", ["S03"]), ("and", ["T01"]), ("the", ["S01"]),
-   ("night", ["M02"]), ("runs", ["K02"]), ("slow", ["T01", "N-1", "V04"]), 8),
- L(2, ("I", ["M-1"]), ("hum", ["H-2"]), ("the", ["N-1"]), ("tune", ["V03"]), ("that", ["T01"]), ("the", ["S01"]),
-   ("porch", ["S02"]), ("light", ["T02"]), ("knows", ["N-1", "V04"]), 8),
- L(1, ("and", ["V01"]), ("the", ["T01"]), ("moon", ["S02"]), ("comes", ["K01"]), ("round", ["M03"]), ("where", ["K01"]),
-   ("the", ["S01"]), ("slow", ["T02"]), ("moon", ["V02"]), ("goes", ["N-1", "V05"]), 7),
-]
-VERSE2 = [
- L(1, ("The", ["V01"]), ("old", ["T02"]), ("pi-", ["S01"]), ("a-", ["K02"]), ("no's", ["M02"]), ("a", ["K01"]),
-   ("lit-", ["S02"]), ("tle", ["T01"]), ("off", ["V02"]), ("key", ["N-1", "V04"]), 8),
- L(1, ("but", ["N-1"]), ("it", ["V01"]), ("still", ["T02"]), ("re-", ["S01"]), ("mem-", ["K02"]), ("bers", ["S02"]),
-   ("the", ["T01"]), ("songs", ["S02"]), ("we", ["T01"]), ("sang", ["N-1", "V04"]), 9),
- L(2, ("there's", ["M-1"]), ("a", ["H-1"]), ("train", ["N-2"]), ("some-", ["V02"]), ("where", ["T01"]), ("that", ["S01"]),
-   ("was", ["K01"]), ("nev-", ["S02"]), ("er", ["T01"]), ("mine", ["N-1", "V04"]), 9),
- L(1, ("and", ["V01"]), ("a", ["T01"]), ("screen", ["S02"]), ("door", ["K01"]), ("some-", ["M02"]), ("where", ["K01"]),
-   ("that", ["S01"]), ("used", ["T02"]), ("to", ["V02"]), ("bang", ["N-1", "V05"]), 8),
-]
-CHORUS = [
- L(1, ("Oh", ["M03"]), ("slow", ["K02"]), ("moon", ["M03"]), ("car-", ["K01"]), ("ry", ["S01"]), ("me", ["K02"]),
-   ("ea-", ["S02"]), ("sy", ["T03"]), 10),
- L(1, ("o-", ["M03"]), ("ver", ["K01"]), ("the", ["S01"]), ("wa-", ["T03"]), ("ter", ["S02"]), ("un-", ["K02"]),
-   ("der", ["S01"]), ("the", ["T01"]), ("pine", ["N-1", "V05"]), 7),
- L(2, ("I've", ["T01"]), ("got", ["S01"]), ("a", ["T01"]), ("pock-", ["S02"]), ("et", ["K01"]), ("of", ["S01"]),
-   ("yes-", ["M02"]), ("ter-", ["K01"]), ("days", ["S02"]), ("and", ["T01"]), ("ev-", ["S01"]), ("ry", ["T01"]),
-   ("one", ["V02"]), ("of", ["N-1"]), ("them", ["V01"]), ("is", ["N-1"]), ("mine", ["V06"])),
-]
-BRIDGE = [
- L(2, ("And", ["M-2"]), ("if", ["H-1"]), ("you", ["N-2"]), ("won-", ["V03"]), ("der", ["T02"]), ("why", ["S03"]),
-   ("I", ["T02"]), ("stay", ["S05"]), 6),
- # the peak: "light" sits on Zish, the spicy degree, over the tonic frame, and resolves up by the small step
- L(1, ("it's", ["T01"]), ("the", ["S01"]), ("way", ["T02"]), ("the", ["V01"]), ("light", ["Z-4"]), ("falls", ["N-2"]),
-   ("on", ["V01"]), ("the", ["T01"]), ("bay", ["N-1", "V05"]), 8),
-]
-INTRO_V = [L(28)]                                   # 4 bars, instruments only
-OUTRO_V = [L(7), L(7, ("where", ["S01"]), ("the", ["T01"]), ("slow", ["S02"]), ("moon", ["T02"]), ("goes", ["N-1", "V06"]), 8), L(7)]
-# chorus 3 ends with "mine" held into the outro: handled by the outro's first bar of rest (the note's release)
+# ------------------------------------------------------------------ build
+def section_start(name):
+    b = 0
+    for s, hs in SECTIONS:
+        if s == name: return b
+        b += len(hs)
+    raise KeyError(name)
 
-VOCAL = [("intro", INTRO_V), ("verse 1", VERSE1), ("chorus 1", CHORUS), ("verse 2", VERSE2), ("chorus 2", CHORUS),
-         ("bridge", BRIDGE), ("chorus 3", CHORUS), ("outro", OUTRO_V)]
-
-# ------------------------------------------------------------------ build event lists
 def build():
-    events = {"pad": [], "bass": [], "pluck": [], "kick": [], "clap": [], "hat": [], "vocal": [], "harmony": []}
-    # harmony tracks
+    ev = {k: [] for k in ("piano", "pianobass", "bass", "brush", "ride", "lead", "vocal")}
+    # ---- rhythm section, bar by bar
     for bar, h in enumerate(HARMONY):
         t0 = bar * BAR
-        section = [s for s, hs in SECTIONS if sum(len(x[1]) for x in SECTIONS[:SECTIONS.index((s, hs))]) <= bar][-1]
-        lift = 1 if section == "chorus 3" else 0           # final chorus: pads gain a voice one period up
-        for name, start, dur in bar_chords(h):
-            tones = CHORDS[name]
-            freqs = [hz(d, p) for d, p in tones] + ([hz(*tones[0]) * PERIOD ** 1] if lift else [])
-            events["pad"].append(dict(t=t0 + start, d=dur, f=freqs, a=0.10 + 0.02 * lift))
-            # arpeggio on half pulses
-            for hp in range(start * 2, (start + dur) * 2):
-                idx = ARP[hp % 14]
-                if idx is None or section == "intro" and bar < 2: continue
-                f = hz(*tones[idx]) * PERIOD        # plucks live one period above the pad
-                events["pluck"].append(dict(t=t0 + hp / 2, d=0.5, f=[f], a=0.07 if hp % 2 == 0 else 0.045))
-        # bass follows the chord at each hit; "fifth" = root + Mor interval; "next" = next bar's root
-        if h is not None:
-            cyc = (bar % 2) * 7
-            for p, kind, dur in BASS_CYCLE:
-                if not (cyc <= p < cyc + 7): continue
-                pos = p - cyc
-                chord_here = [c for c in bar_chords(h) if c[1] <= pos < c[1] + c[2]][0][0]
-                root = CHORDS[chord_here][0]
-                if kind == "root": f = hz(*root)                    # pad root, 91.7 .. 168 Hz
-                elif kind == "fifth": f = hz(CHORDS[chord_here][1][0], CHORDS[chord_here][1][1])
-                else:
-                    nxt = HARMONY[bar + 1] if bar + 1 < NBARS else "Vum"
-                    nxt = bar_chords(nxt)[0][0] if nxt else "Vum"
-                    f = hz(*CHORDS[nxt][0])
-                events["bass"].append(dict(t=t0 + pos, d=dur, f=[f], a=0.22 if kind == "root" else 0.15))
-    # drums (not in the first intro bar: the song opens with the hats alone, kicks join in bar 2)
-    for bar in range(NBARS):
-        t0 = bar * BAR; cyc = (bar % 2) * 7
+        sec = [s for s, _ in SECTIONS if section_start(s) <= bar][-1]
+        loud = 1.15 if sec in ("B'", "A3'") else 1.0
         final = bar == NBARS - 1
-        for p in range(7):
-            cp = cyc + p
-            if cp in KICK and bar >= 1 and not final: events["kick"].append(dict(t=t0 + p, d=0.5, f=[hz(0, -1)], a=0.5))
-            if cp in CLAP and bar >= 2 and not final: events["clap"].append(dict(t=t0 + p, d=0.2, f=[0], a=0.22))
-            if not final:
-                events["hat"].append(dict(t=t0 + p, d=0.1, f=[0], a=0.12 if cp in HAT_ACCENT else 0.05))
-                events["hat"].append(dict(t=t0 + p + 0.5, d=0.1, f=[0], a=0.035))
-        if final:  # last bar: one kick on the downbeat only
-            events["kick"].append(dict(t=t0, d=0.5, f=[hz(0, -1)], a=0.5))
-    # vocal
-    t = 0
-    zish_uses = 0; steps = leaps = 0; prev = None; cadences = 0
-    for section, lines in VOCAL:
+        segs = bar_chords(h)
+        # piano: chord on beat one, chord pushed on the and-of-two (unit 5) or on beat three; stride bass notes
+        for nm, start, ln in segs:
+            tones = CHORDS[nm]
+            hits = [start] if ln <= 5 else ([start, start + 6] if start == 0 and ln == 12 else [start])
+            if start == 5: hits = [5, 9]
+            for i, u in enumerate(hits):
+                dur = (hits[i + 1] - u) if i + 1 < len(hits) else (start + ln - u)
+                ev["piano"].append(dict(t=t0 + u, d=dur, f=[hz(d, p) for d, p in tones], a=(0.16 if u % 6 == 0 else 0.11) * loud))
+            root = tones[0]
+            ev["pianobass"].append(dict(t=t0 + start, d=min(6, ln), f=[hz(root[0], root[1] - 1)], a=0.2 * loud))
+            if ln >= 10: ev["pianobass"].append(dict(t=t0 + start + 6, d=ln - 6, f=[hz(*tones[1]) / PERIOD], a=0.15 * loud))
+        # upright bass in two: root on one, pillar on three, a short root again on the and-of-four as the walk-up
+        first = segs[0][0]; last = segs[-1][0]
+        r1 = CHORDS[first][0]; r2 = CHORDS[last][0]
+        ev["bass"].append(dict(t=t0, d=6, f=[hz(*r1)], a=0.5 * loud))
+        if len(segs) == 1:
+            ev["bass"].append(dict(t=t0 + 6, d=4, f=[hz(*CHORDS[first][1])], a=0.42 * loud))
+        else:
+            ev["bass"].append(dict(t=t0 + segs[1][1], d=6, f=[hz(*r2)], a=0.46 * loud))
+        if not final:
+            nxt = bar_chords(HARMONY[bar + 1])[0][0]
+            ev["bass"].append(dict(t=t0 + 11, d=1, f=[hz(*CHORDS[nxt][1]) / PERIOD], a=0.3 * loud))  # leads into the next root
+        # brushes: swish on two and four; ride ticks on the beats and the swung off-beats
+        if not final and bar >= 1:
+            for u in (3, 9): ev["brush"].append(dict(t=t0 + u, d=3, f=[0], a=0.5 * loud))
+            for u in range(12):
+                a = 0.16 if u % 3 == 0 else (0.07 if u % 3 == 2 else 0)
+                if a: ev["ride"].append(dict(t=t0 + u, d=1, f=[0], a=a * loud))
+        if final:
+            ev["brush"].append(dict(t=t0, d=8, f=[0], a=0.6))
+    # ---- vocal
+    t = 0; zish = steps = leaps = cad = 0; prev = None
+    for sec, lines in VOCAL:
+        assert t == section_start(sec) * BAR, (sec, t)
         for line in lines:
-            line_len = 0
+            pos = t
             for syl, notes in line:
+                first_note = True
                 for tk, dur in notes:
-                    if tk == "rest":
-                        prev = None
+                    if tk == "rest": prev = None
                     else:
                         d, p = tok(tk)
-                        if d == 7: zish_uses += 1
+                        if d == 7: zish += 1
                         if prev is not None:
-                            iv = abs(cents(prev, (d, p)))
-                            if iv <= 240: steps += 1
+                            if abs(cents(prev, (d, p))) <= 240: steps += 1
                             else: leaps += 1
-                        if prev is not None and prev == (8, p - 1) and d == 0: cadences += 1
+                            if prev == (8, p - 1) and d == 0: cad += 1
                         prev = (d, p)
-                        # a syllable with several notes is a melisma: only its first note carries the text
-                        first = not any(e["syl"] == syl and e["t"] + e["d"] == t + line_len for e in events["vocal"][-1:])
-                        events["vocal"].append(dict(t=t + line_len, d=dur, f=[hz(d, p)], a=1.0,
-                                                    syl=(syl if first else None), melisma=(not first), deg=d, per=p))
-                    line_len += dur
-            if section in ("verse 1", "verse 2", "chorus 1", "chorus 2", "chorus 3", "bridge"):
-                assert line_len == 28, (section, line_len)
-            t += line_len
+                        ev["vocal"].append(dict(t=pos, d=dur, f=[hz(d, p)], a=1.0, syl=(syl if first_note else None),
+                                                melisma=(not first_note), deg=d, per=p, chord=chord_at(pos // BAR, pos % BAR)))
+                        first_note = False
+                    pos += dur
+            t += 24
     assert t == NBARS * BAR, (t, NBARS * BAR)
-    # harmony voice for the final chorus: highest chord tone at least 230 c below the melody (2nd male voice)
-    c3_start = sum(len(hs) for s, hs in SECTIONS[:6]) * BAR
-    c3_end = c3_start + len(CHORUS_H) * BAR
-    for ev in events["vocal"]:
-        if c3_start <= ev["t"] < c3_end:
-            bar = int(ev["t"] // BAR); pos = ev["t"] - bar * BAR
-            ch = [c for c in bar_chords(HARMONY[bar]) if c[1] <= pos < c[1] + c[2]][0][0]
-            cands = []
-            for d, p in CHORDS[ch]:
-                for per in (p, p + 1):
-                    f = hz(d, per)
-                    if 1200 * math.log2(ev["f"][0] / f) >= 230: cands.append((f, d, per))
-            if cands:
-                f, d, per = max(cands)
-                events["harmony"].append(dict(ev, f=[f], deg=d, per=per, a=0.55))
-    stats = dict(zish_uses=zish_uses, steps=steps, leaps=leaps, cadences=cadences,
-                 bars=NBARS, seconds=round(NBARS * BAR * PULSE, 1))
-    return events, stats
+    # ---- lead (clarinet-like)
+    for sec, lines in LEAD:
+        pos = section_start(sec) * BAR
+        for line in lines:
+            for syl, notes in line:
+                for tk, dur in notes:
+                    if tk != "rest":
+                        d, p = tok(tk)
+                        ev["lead"].append(dict(t=pos, d=dur, f=[hz(d, p + 1)], a=0.2))   # one period above the voice
+                    pos += dur
+    # ---- piano fills where the voice rests at line ends (ascending chord tones, swung)
+    vocal_busy = set()
+    for e in ev["vocal"]:
+        for u in range(int(e["t"]), int(e["t"] + e["d"])): vocal_busy.add(u)
+    lead_busy = {u for e in ev["lead"] for u in range(int(e["t"]), int(e["t"] + e["d"]))}
+    for line_start in range(0, NBARS * BAR, 24):
+        tail = [u for u in range(line_start + 18, line_start + 24) if u not in vocal_busy and u not in lead_busy]
+        if len(tail) >= 4 and line_start // BAR >= 1:
+            tones = CHORDS[chord_at(tail[0] // BAR, tail[0] % BAR)]
+            for i, u in enumerate(tail[-4:-1]):
+                dgp = tones[i % 3]
+                ev["piano"].append(dict(t=u, d=1.5, f=[hz(dgp[0], dgp[1] + 1)], a=0.09))
+    stats = dict(zish_uses=zish, steps=steps, leaps=leaps, cadences=cad, bars=NBARS, seconds=round(NBARS * BAR * UNIT, 1))
+    return ev, stats
 
 if __name__ == "__main__":
     events, stats = build()
-    song = dict(title="Where the Slow Moon Goes", scale="Morsiri", tonic=TONIC, period=PERIOD, generator=GEN,
-                ratios=RATIOS, names=NAMES, pulse=PULSE, bars=NBARS, sections=[(s, len(h)) for s, h in SECTIONS],
-                harmony=HARMONY, events=events, stats=stats)
+    song = dict(title="Where the Slow Moon Goes", scale="Morsiri", table_tonic=TABLE_TONIC, key_tonic=KEY, period=PERIOD,
+                generator=GEN, ratios=RATIOS, names=NAMES, pulse=UNIT, bpm=BPM, units_per_bar=BAR, bars=NBARS,
+                sections=[(s, len(h)) for s, h in SECTIONS], harmony=HARMONY, events=events, stats=stats)
     json.dump(song, open("song.json", "w"), indent=0)
     print("stats:", stats)
-    # all pitched frequencies must be table frequencies
-    table = {round(hz(d, p), 6) for d in range(9) for p in range(-3, 4)}
-    bad = [e for trk in events.values() for e in trk for f in e["f"] if f and round(f, 6) not in table]
-    print("pitched events:", sum(len(e["f"]) for trk in events.values() for e in trk if e["f"][0]),
-          " not from the table:", len(bad))
-    print("Zish in pads/plucks/bass:", sum(1 for k in ("pad", "pluck", "bass") for e in events[k] for f in e["f"]
-                                           if any(abs(f - hz(7, p)) < 1e-6 for p in range(-3, 4))))
-    syls = [e["syl"] for e in events["vocal"] if e["syl"]]
-    words = sum(1 for e in events["vocal"] if e["syl"] and not e["syl"].endswith("-"))
-    print("words:", words)
-    print("vocal notes:", len(events["vocal"]), " syllables:", len(syls), " harmony notes:", len(events["harmony"]))
-    print("sections (bar, time):")
+    table = {round(hz(d, p), 6) for d in range(9) for p in range(-4, 4)}
+    pitched = [f for trk in events.values() for e in trk for f in e["f"] if f]
+    print("pitched events:", len(pitched), " not from the table:", sum(1 for f in pitched if round(f, 6) not in table))
+    print("Zish outside the voice:", sum(1 for k, trk in events.items() if k != "vocal" for e in trk for f in e["f"]
+                                        if any(abs(f - hz(7, p)) < 1e-6 for p in range(-4, 4))))
+    print("vocal notes:", len(events["vocal"]), " range:", round(min(e["f"][0] for e in events["vocal"]), 1), "-",
+          round(max(e["f"][0] for e in events["vocal"]), 1), "Hz")
     b = 0
     for s, hs in SECTIONS:
-        print(f"   {s:9} bars {b+1:2}-{b+len(hs):2}   {b*BAR*PULSE:6.1f} s")
-        b += len(hs)
+        print(f"   {s:9} bars {b+1:2}-{b+len(hs):2}  {b*BAR*UNIT:6.1f} s"); b += len(hs)
